@@ -1,5 +1,30 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 
+function createWindow() {
+  // cria uma janela
+  const win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      contextIsolation: true, // isolar o contexto
+    },
+  });
+
+  // index.html
+  win.loadFile('index.html');
+}
+
+// Inicia o app
 app.whenReady().then(() => {
-    createWindow()
-  })
+  createWindow();
+
+  // No macOS, cria nova janela ao reativar o app
+  app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
+  });
+});
+
+//fecha aplicação menos no mac
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
