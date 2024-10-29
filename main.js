@@ -1,3 +1,5 @@
+// Arquivo de Inicialização do Electron
+
 const { app, BrowserWindow } = require('electron');
 
 function createWindow() {
@@ -11,7 +13,7 @@ function createWindow() {
   });
 
   // index.html
-  win.loadFile('index.html');
+  win.loadFile('src/index.html');
 }
 
 // Inicia o app
