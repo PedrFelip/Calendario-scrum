@@ -9,24 +9,37 @@
     <title>Tela de Cadastro</title>
 </head>
 <body>
-    <main id="areaCadastro">
+    <div id="areaCadastro">
+        
+        <h1 id="header">Fazer Cadastro</h1>
+
         <form method="post">
             <label for="nomeUsuario">
                 <i class='bx bx-user'></i>
+                <input required type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Nome de Usuário">
             </label>
-            <input type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Nome de Usuário">
+
             <label for="email">
                 <i class='bx bx-envelope' ></i>
+                <input required type="email" name="email" id="email" placeholder="E-mail">
             </label>
-            <input required type="email" name="email" id="email" placeholder="E-mail">
+
             <label for="password">
                 <i class='bx bx-lock-alt'></i>
+                <input required type="password" name="password" id="password" placeholder="Senha">
             </label>
-            <input type="password" name="password" id="password" placeholder="Senha">
+
+            <label for="repeatPassword">
+                <i class='bx bx-lock-alt'></i>
+                <input required type="password" name="repeatpassword" id="repeatpassword" placeholder="Repetir senha">
+            </label>
+
+            <button type="submit" id="botaoCadastro">Cadastrar</button>
+            <p>Já possui uma conta? <a href="../Login/telaLogin.html">Fazer login</a></p>
+
         </form>
-        <button type="submit">Cadastrar</button>
-        <p>New here? <a href="signup.html">Fazer login</a></p>
-    </main>
+    </div>
+
     <div id="areaImagem"></div>
 </body>
 </html>
