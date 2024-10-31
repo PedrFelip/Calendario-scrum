@@ -1,4 +1,3 @@
 # Calendario-scrum
 
 
-como ins
