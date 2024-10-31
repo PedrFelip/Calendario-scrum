@@ -23,53 +23,69 @@ body {
 
 #header {
     font-size: 2.5em;
-    margin-bottom: 2em;
+    margin-bottom: 30px;
 }
 
 #areaCadastro {
-    background-color: aqua;
-    flex: 35%;
+    background-color: var(--input-color);
+    width: clamp(200px, 50%, 600px);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-form {
+#areaCadastro > form {
+    background-color: var(--base-color);
+    width: clamp(150px, 60%, 450px);
     display: grid;
-    border: 1px solid black;
     border-radius: 20px;
     padding: 20px;
-    margin: 10px;
+    font-size: 14px;
 }
 
 form > p {
     margin-top: 5px;
     text-align: center;
+    color: var(--text-color);
 }
 
 form > a {
     text-align: center;
+    color: var(--accent-color);
 }
 
 form > label {
     margin-top: 1.3em;
+    color: var(--text-color)
 }
 
 form > label > input {
-    width: 20em;
+    width: 90%;
     padding: 5px;
     border-radius: 5px;
+    border: 1px solid var(--input-color);
+    background-color: var(--input-color);
+}
+
+form > label > input:active {
+    border: 1px solid var(--base-color);
 }
 
 form > #botaoCadastro {
     margin-top: 2em;
-    border: 1px solid black;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
     border-radius: 8px;
-    padding: 1em;
+    padding: 0.6em;
     font-weight: 600;
     text-transform: uppercase;
     cursor: pointer;
+}
+
+form > #botaoCadastro:hover {
+    background-color: #6f5ed4;
 }
 
 #areaImagem {
