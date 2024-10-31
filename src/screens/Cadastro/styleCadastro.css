@@ -1,0 +1,35 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+#areaCadastro {
+    background-color: aqua;
+    flex: 35%;
+}
+
+form {
+    width: 60%;
+    display: grid;
+    grid-column: 3;
+}
+
+form > input {
+    
+}
+
+#areaImagem {
+    background-image: url(../../imagens/Paisagem02.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    flex: 65%;
+}

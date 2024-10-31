@@ -3,19 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleCadastro.css">
+    <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
     <link rel="shortcut icon" href="../../imagens/FaviconLogo1.jpg" type="image/x-icon">
     <title>Tela de Cadastro</title>
 </head>
 <body>
-    <main>
+    <main id="areaCadastro">
         <form method="post">
-            <input type="text" name="nomeUsuario" id="nomeUsuario">
-            <input type="text" name="email" id="email">
-            <input type="password" name="password" id="password">
+            <label for="nomeUsuario">
+                <i class='bx bx-user'></i>
+            </label>
+            <input type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Nome de Usuário">
+            <label for="email">
+                <i class='bx bx-envelope' ></i>
+            </label>
+            <input required type="email" name="email" id="email" placeholder="E-mail">
+            <label for="password">
+                <i class='bx bx-lock-alt'></i>
+            </label>
+            <input type="password" name="password" id="password" placeholder="Senha">
         </form>
+        <button type="submit">Cadastrar</button>
+        <p>New here? <a href="signup.html">Fazer login</a></p>
     </main>
-    <div id="areaImagem">
-        <img src="../../imagens/Paisagem01.jpeg" alt="Imagem de fundo">
-    </div>
+    <div id="areaImagem"></div>
 </body>
 </html>
