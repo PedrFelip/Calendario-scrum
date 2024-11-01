@@ -1,0 +1,18 @@
+:root {
+    --fc-bgcolor-day: #06646C;
+    --fc-border-day: #424769;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--fc-bgcolor-day);
+}
+
+.calendar-container {
+    height: 1080px;
+}
