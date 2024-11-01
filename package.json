@@ -18,5 +18,10 @@
   "homepage": "https://github.com/PedrFelip/Calendario-scrum#readme",
   "devDependencies": {
     "electron": "^33.0.2"
+  },
+  "dependencies": {
+    "@fullcalendar/core": "^6.1.15",
+    "@fullcalendar/daygrid": "^6.1.15",
+    "@fullcalendar/timegrid": "^6.1.15"
   }
 }
