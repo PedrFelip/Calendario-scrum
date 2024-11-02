@@ -1,6 +1,6 @@
 :root {
-    --fc-bgcolor-day: #06646C;
-    --fc-border-day: #424769;
+    --fc-color01: #424769;
+    --fc-color02: #06646C;
 }
 
 * {
@@ -11,8 +11,8 @@
 
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: var(--fc-bgcolor-day);
-    margin: 0 15px;
+    color: var(--fc-color01);
+    margin: 5px 15px;
 }
 
 .fc .fc-toolbar.fc-header-toolbar { /*Estilização do header*/
@@ -28,4 +28,18 @@ body {
 .fc-toolbar .fc-toolbar-chunk:last-child { /*Estilização do ano*/
     font-size: 4em;
     margin-right: 20px;
+}
+
+.fc-daygrid-day {
+    cursor: pointer;
+}
+
+.hover-message {
+    position: absolute;
+    transform: translate(0, -100%);
+    background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente */
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    pointer-events: none; /* Evita que o <span> interfira com os eventos de mouse */
 }
