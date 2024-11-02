@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function() { // Inicialização do
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth', // Define o modelo inicial do calendário
         height: 'clamp(500px, 98vh, 1000px)', // Define a altura minima como 500px, a maxima como 1000px e 98vh de referência
-        width: '1000px',
         locale: 'pt-br', // Linguagem PT-BR definida
 
         dayCellDidMount: function(info) {
             // Cria um elemento <span> para exibir a mensagem de hover
             const hoverMessage = document.createElement("span");
+            const blocoDeNotas = document.getElementById("container-notes");
             hoverMessage.textContent = "Clique para abrir as notas";
             hoverMessage.style.display = "none"; // Inicialmente oculto
             hoverMessage.classList.add("hover-message");
@@ -20,6 +20,10 @@ document.addEventListener('DOMContentLoaded', function() { // Inicialização do
             // Adiciona os eventos de mouse para exibir/ocultar a mensagem
             info.el.addEventListener("mouseenter", function() {
                 hoverMessage.style.display = "block"; // Exibe a mensagem ao passar o mouse
+            });
+
+            info.el.addEventListener("click", () => {
+                blocoDeNotas.style.display = "flex";
             });
         
             info.el.addEventListener("mouseleave", function() {
