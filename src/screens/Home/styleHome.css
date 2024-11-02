@@ -64,6 +64,7 @@ body {
 }
 
 #container-notes > h3 {
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     color: white;
     margin-bottom: 15px;
@@ -80,7 +81,10 @@ body {
     flex: 1;
     font-family: 'Times New Roman', Times, serif;
     font-size: 16px;
-    padding: 3px;
+    padding: 8px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.514);
+    box-shadow: 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 #container-notes > form > button {
@@ -90,4 +94,5 @@ body {
     border-radius: 8px;
     background-color: #424769;
     color: white;
+    box-shadow: 4px 6px rgba(0, 0, 0, 0.2);
 }
