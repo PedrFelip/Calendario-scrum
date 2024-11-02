@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() { // Inicialização do
         initialView: 'dayGridMonth', // Definindo o modelo inicial do calendário
         height: '100vh', // Definindo para o calendário tomar 100% da viewport
         locale: 'pt-br',
-        
+
         headerToolbar: { // Configuração do header (a parte de cima do calendário)
             left: "title",
             center: "", // Em branco, pois não tem nada
@@ -25,8 +25,3 @@ document.addEventListener('DOMContentLoaded', function() { // Inicialização do
     
     calendar.render();
 });
-
-let title = document.getElementById("fc-dom-1");
-
-title.innerText = ""
-
