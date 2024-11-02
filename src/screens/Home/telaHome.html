@@ -6,17 +6,26 @@
     <title>Home</title>
     <link rel="stylesheet" href="styleHome.css">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    <script src="calendar.js" type="module"></script>
+    <script src="calendar.js" type="module" defer></script>
+    <script src="functions.js" type="module" defer></script>
 </head>
 <body>
     <div id="calendar"></div>
 
     <div id="container-notes">
-        <h3 id="title-notes">Bloco de Notas</h3>
+        <div id="header-notes">
+            <button type="button" id="exit-notes">X</button>
+            <h3 id="title-notes">
+                Bloco de Notas
+            </h3>
+        </div>
+
         <form action="">
             <textarea   name="bloco-de-notas"
                         id="bloco-de-notas"
                         placeholder="Digite suas anotações"
+                        autofocus
+                        
                         ></textarea>
             
             <button type="reset">Resetar</button>

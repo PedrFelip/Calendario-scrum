@@ -1,4 +1,4 @@
-import { setupDayCell, setCalendarYear } from './functions.js';
+import { setupDayCell, setCalendarYear, BotaoSair } from './functions.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
@@ -29,4 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
+
+    // Configurar o botão de sair
+    document.getElementById('exit-notes').addEventListener('click', () => {
+        BotaoSair('container-notes'); // Chame a função para fechar o container
+    });
 });
