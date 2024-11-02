@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
 
-    // Configurar o botão de sair
+    // Configuração do botão de sair
     document.getElementById('exit-notes').addEventListener('click', () => {
-        BotaoSair('container-notes'); // Chame a função para fechar o container
+        BotaoSair('container-notes'); // Função para fechar o container
     });
 });
