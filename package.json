@@ -23,6 +23,8 @@
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
-    "fullcalendar": "^6.1.15"
+    "@types/electron": "^1.6.12",
+    "fullcalendar": "^6.1.15",
+    "save-dev": "^0.0.1-security"
   }
 }
