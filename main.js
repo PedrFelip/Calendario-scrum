@@ -13,7 +13,7 @@ function createWindow() {
   });
 
   // index.html
-  win.loadFile('src/screens/Cadastro/telaDeCadastro.html');
+  win.loadFile('src/screens/Home/telaHome.html');
 }
 
 // Inicia o app

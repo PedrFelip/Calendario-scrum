@@ -10,9 +10,22 @@
 }
 
 body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: var(--fc-bgcolor-day);
+    margin: 0 15px;
 }
 
-.calendar-container {
-    height: 1080px;
+.fc .fc-toolbar.fc-header-toolbar { /*Estilização do header*/
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#fc-dom-1 {
+    font-size: 4em;
+    text-transform: capitalize;
+    margin-left: 20px;
+}
+
+.fc-toolbar .fc-toolbar-chunk:last-child { /*Estilização do ano*/
+    font-size: 4em;
+    margin-right: 20px;
 }
