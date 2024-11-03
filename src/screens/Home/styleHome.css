@@ -11,8 +11,10 @@
 
 body {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: var(--fc-color01);
+    background-color: var(--fc-color01);
+    color: white;
     display: grid;
+    font-size: 18px;
 }
 
 #calendar {
@@ -21,6 +23,7 @@ body {
 
 .fc .fc-toolbar.fc-header-toolbar { /*Estilização do header*/
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 2px 2px black;
 }
 
 #fc-dom-1 {
@@ -34,20 +37,26 @@ body {
     margin-right: 20px;
 }
 
-.fc-daygrid-day {
+.fc-daygrid-day { /*Classe de cada quadrado*/
+    font-size: 18px;
     cursor: pointer;
 }
 
 .hover-message {
+    display: none;
     position: absolute;
     transform: translate(0, -100%);
     background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente */
+    color: black;
     padding: 4px;
     border-radius: 4px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     pointer-events: none; /* Evita que o <span> interfira com os eventos de mouse */
 }
 
+.fc-scrollgrid  .fc-scrollgrid-liquid {
+    border: 2px solid white;
+}
 
 /*Estilização do bloco de notas*/
 
