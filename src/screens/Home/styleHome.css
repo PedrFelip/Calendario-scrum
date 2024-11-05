@@ -26,21 +26,34 @@ body {
     text-shadow: 2px 2px black;
 }
 
-#fc-dom-1 {
+#fc-dom-1 { /*Estilização do mês*/
     font-size: 4em;
     text-transform: capitalize;
+    letter-spacing: 0.25em;
     margin-left: 20px;
 }
 
 .fc-toolbar .fc-toolbar-chunk:last-child { /*Estilização do ano*/
     font-size: 4em;
+    letter-spacing: 0.1em;
     margin-right: 20px;
 }
 
+.fc-view-harness { /*Corpo do calendário*/
+    margin-left: 20px;
+    width: 80vw;
+}
+
 .fc-daygrid-day { /*Classe de cada quadrado*/
-    font-size: 18px;
+    font-size: 1.5em;
     cursor: pointer;
 }
+
+.fc-daygrid-day-number {
+    margin: 6px 6px 0px 0px;
+}
+
+/*Estilização da mensagem (Clique para abrir notas*/
 
 .hover-message {
     display: none;
@@ -54,7 +67,7 @@ body {
     pointer-events: none; /* Evita que o <span> interfira com os eventos de mouse */
 }
 
-.fc-scrollgrid  .fc-scrollgrid-liquid {
+.fc-scrollgrid .fc-scrollgrid-liquid {
     border: 2px solid white;
 }
 
