@@ -29,7 +29,7 @@ body {
 #fc-dom-1 { /*Estilização do mês*/
     font-size: 4em;
     text-transform: capitalize;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.15em;
     margin-left: 20px;
 }
 
