@@ -6,8 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        height: 'clamp(500px, 98vh, 1000px)',
+        height: 'clamp(500px, 97vh, 1000px)',
         locale: 'pt-br',
+        fixedWeekCount: false,
 
         dayCellDidMount: function(info) {
             setupDayCell(info, blocoDeNotas);
@@ -16,16 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
         headerToolbar: {
             left: "title",
             center: "",
-            right: "",
+            right: "prev, next today",
         },
 
-        titleFormat: {
-            month: "long"
-        },
 
-        datesSet: function(info) {
-            setCalendarYear(info);
-        }
+        showNonCurrentDates: false,
     });
 
     calendar.render();

@@ -33,11 +33,12 @@ body {
     margin-left: 20px;
 }
 
-.fc-toolbar .fc-toolbar-chunk:last-child { /*Estilização do ano*/
-    font-size: 4em;
-    letter-spacing: 0.1em;
+/*
+.fc-toolbar .fc-toolbar-chunk:last-child { Estilização dos botoões (futuramente)
+    font-size: 1em;
     margin-right: 20px;
 }
+*/
 
 .fc-view-harness { /*Corpo do calendário*/
     margin-left: 20px;
@@ -45,11 +46,19 @@ body {
 }
 
 .fc-daygrid-day { /*Classe de cada quadrado*/
-    font-size: 1.5em;
     cursor: pointer;
 }
 
-.fc-daygrid-day-number {
+.fc-day-disabled {
+    opacity: 0;
+}
+
+.fc-col-header-cell {
+    font-size: 1.2em;
+}
+
+.fc-daygrid-day-number { /*Número do calendário*/
+    font-size: 1.5em;
     margin: 6px 6px 0px 0px;
 }
 
