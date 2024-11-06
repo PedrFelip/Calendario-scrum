@@ -40,12 +40,12 @@ $("#calendar").FullCalendar({ // $() é usado para selecionar elemento do DOM ma
         $("#eventForm").show();
 
         $("#startEvent").val(start.format("DD-MM-YYYYTHH:MM"));
-        $("endEvent").val(end.format("DD-MM-YYYYTHH:MM"));
+        $("#endEvent").val(end.format("DD-MM-YYYYTHH:MM"));
 
         window.saveEvent = function(){
             var title = $("#titleEvent").val();
             var start = $("#startEvent").val();
-            var end = $("endEvent").val();
+            var end = $("#endEvent").val();
 
             if(title, start, end){
                 $("#calendar").FullCalendar('renderEvent', {

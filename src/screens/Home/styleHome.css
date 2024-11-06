@@ -207,6 +207,13 @@ body {
     cursor: pointer;
     border-radius: 8px;
     padding: 12px;
+    background-color: white;
+    color: black;
+    font-family: var(--fc-fonteInter);
+    transition: 0.5s all ease-in;
 }
 
-#eventForm button
+#eventForm #saveEvent:hover {
+    background-color: var(--fc-color01);
+    color: white;
+}
