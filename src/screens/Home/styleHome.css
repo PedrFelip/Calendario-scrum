@@ -1,6 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@keyframes transition-blackWhite {
+    0% {
+        background-color: white;
+        color: black;
+    }
+
+    50% {
+        background-color: gray;
+        color: white;
+    }
+
+    100% {
+        background-color: black;
+        color: white;
+    }
+}
+
 :root {
     --fc-color01: #424769;
     --fc-color02: #06646C;
+    --fc-fonte: "Raleway";
 }
 
 * {
@@ -14,7 +34,6 @@ body {
     background-color: var(--fc-color01);
     color: white;
     display: grid;
-    font-size: 18px;
 }
 
 #calendar {
@@ -22,23 +41,34 @@ body {
 }
 
 .fc .fc-toolbar.fc-header-toolbar { /*Estilização do header*/
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: var(--fc-fonte);
     text-shadow: 2px 2px black;
 }
 
-#fc-dom-1 { /*Estilização do mês*/
+#fc-dom-1 { /*Estilização do mês e do ano*/
     font-size: 4em;
     text-transform: capitalize;
     letter-spacing: 0.15em;
     margin-left: 20px;
 }
 
-/*
-.fc-toolbar .fc-toolbar-chunk:last-child { Estilização dos botoões (futuramente)
-    font-size: 1em;
-    margin-right: 20px;
+.fc-button-group {
+    column-gap: 25px;
 }
-*/
+
+.fc-button-group .fc-button-primary { /*Botão do Header*/
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    font-size: 1.3em;
+    padding: 10px;
+    transition: 0.5s all ease;
+}
+
+.fc-button-group .fc-button-primary:hover {
+    background-color: black;
+    color: white;
+}
 
 .fc-view-harness { /*Corpo do calendário*/
     margin-left: 20px;
@@ -49,7 +79,11 @@ body {
     cursor: pointer;
 }
 
-.fc-day-disabled {
+.fc .fc-daygrid-day.fc-day-today { /*Classe para o dia atual*/
+    background-color: var(--fc-color02);
+}
+
+.fc-day-disabled { /*Classe para os dias inativos*/
     opacity: 0;
 }
 
@@ -104,7 +138,7 @@ body {
     height: min-content;
     background-color: transparent;
     border: none;
-    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px rgba(0, 0, 0, 1);
     font-size: 24px;
     font-weight: 700;
     color: white;

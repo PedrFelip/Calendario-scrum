@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        height: 'clamp(500px, 97vh, 1000px)',
+        height: 'clamp(500px, 95vh, 1000px)',
         locale: 'pt-br',
         fixedWeekCount: false,
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headerToolbar: {
             left: "title",
             center: "",
-            right: "prev, next today",
+            right: "prev,next",
         },
 
 
