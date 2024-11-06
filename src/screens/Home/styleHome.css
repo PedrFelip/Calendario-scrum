@@ -53,7 +53,7 @@ body {
     margin-left: 20px;
 }
 
-.fc-button-group {
+.fc-button-group { /*Grupo de Botões no header*/
     column-gap: 25px;
 }
 
@@ -66,11 +66,7 @@ body {
     transition: 0.5s all ease;
 }
 
-.fc-createevent-button .fc-button .fc-button-primary { /*Botão de criar evento*/
-    content: "Criar";
-}
-
-.fc-button-group .fc-button-primary:hover {
+.fc-button-group.fc-button-primary:hover {
     background-color: black;
     color: white;
 }
@@ -101,13 +97,13 @@ body {
     margin: 6px 6px 0px 0px;
 }
 
-/*Estilização da mensagem (Clique para abrir notas*/
+/*Estilização da mensagem ("Clique para abrir notas")*/
 
 .hover-message {
     display: none;
     position: absolute;
     transform: translate(0, -100%);
-    background-color: rgba(255, 255, 255, 0.8); /* Fundo semitransparente */
+    background-color: rgba(255, 255, 255, 0.8);
     color: black;
     padding: 4px;
     border-radius: 4px;
@@ -115,7 +111,7 @@ body {
     pointer-events: none; /* Evita que o <span> interfira com os eventos de mouse */
 }
 
-.fc-scrollgrid .fc-scrollgrid-liquid {
+.fc-scrollgrid .fc-scrollgrid-liquid { /*Borda dos blocos do calendário (Não afeta nada)*/
     border: 1px solid white;
 }
 
