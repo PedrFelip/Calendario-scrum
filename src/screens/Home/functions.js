@@ -1,10 +1,5 @@
-// Função para adicionar o ano no título do calendário
-export function setCalendarYear(info) {
-    document.querySelector('.fc-toolbar .fc-toolbar-chunk:last-child').textContent = info.view.currentStart.getFullYear();
-}
-
 // Função Principal para configurar o comportamento das células do calendário
-export function setupDayCell(info, blocoDeNotas) {
+export function setupDayCell(info, CriadorEventos) {
     const hoverMessage = document.createElement("span");
     hoverMessage.textContent = "Clique para abrir as notas";
     hoverMessage.style.display = "none";
@@ -19,22 +14,14 @@ export function setupDayCell(info, blocoDeNotas) {
         hoverMessage.style.display = "none";
     });
 
-    info.el.addEventListener("click", () => { // Função que abre o bloco de notas
-        blocoDeNotas.style.display = "flex"; 
-        const formattedDate = info.date.toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: '2-digit'
-        });
-        document.querySelector("#title-notes").innerHTML = `Bloco de notas ${formattedDate}`;
+    info.el.addEventListener("click", () => { // Função que abre o criador de eventos
+        document.querySelector('.criar-evento').classList.add('ativo');  // Exibe a caixa de criação
+        document.querySelector('.overlay').classList.add('ativo');  // Exibe a sobreposição
+        document.body.classList.add('body-blur');  // Bloqueia a interação com o conteúdo por trás
     });
 }
-
-export function BotaoSair(containerID){
-    const containerPai = document.getElementById(containerID);
-
-    if(containerPai){
-        containerPai.style.display = "none";
-    } else {
-        console.error("O botão não foi encontrado");
-    }
+export function OcultarCaixaCriarEvento(container){
+    container.styte.opacity = 0;
+    container.style.pointerEvents = "none";
 }
+
