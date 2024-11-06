@@ -1,4 +1,4 @@
-import { setupDayCell, OcultarCaixaCriarEvento } from './functions.js';
+import { setupDayCell, OcultarCaixaCriarEvento, setBackground } from './functions.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
@@ -6,12 +6,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        height: 'clamp(500px, 95vh, 1000px)',
+        maxHeight: "100%",
         locale: 'pt-br',
         fixedWeekCount: false,
 
         dayCellDidMount: function(info) {
             setupDayCell(info, CriadorEventos);
+        },
+
+        datesSet: function(info){
+            setBackground(info);
         },
 
         headerToolbar: {
