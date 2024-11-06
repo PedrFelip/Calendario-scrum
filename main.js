@@ -3,7 +3,6 @@
 const { app, BrowserWindow } = require('electron');
 
 function createWindow() {
-  // cria uma janela
   const win = new BrowserWindow({
     width: 1000,
     height: 800,
@@ -29,4 +28,27 @@ app.whenReady().then(() => {
 //fecha aplicação menos no mac
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
+});
+
+ipcMain.on('cadastro-attempt', (event, { username, password }) => {
+  const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
+  db.run(query, [username, password], function (err) {
+    if (err) {
+      event.reply('cadastro-response', { success: false, message: 'Usuário já existe' });
+    } else {
+      event.reply('cadastro-response', { success: true });
+    }
+  });
+});
+
+
+ipcMain.on('login-attempt', (event, { username, password }) => {
+  const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
+  db.get(query, [username, password], (err, row) => {
+    if (row) {
+      event.reply('login-response', { success: true });
+    } else {
+      event.reply('login-response', { success: false, message: 'Usuário ou senha incorretos' });
+    }
+  });
 });
