@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         headerToolbar: {
             left: "title",
             center: "",
-            right: "prev,createevent,next",
+            right: "prev,next",
         },
 
 

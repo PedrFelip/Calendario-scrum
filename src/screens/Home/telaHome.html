@@ -12,6 +12,7 @@
 <body>
     <div id="calendar"></div>
 
+    <div class="overlay"></div>
     <div id="container-events">
 
         <header id="header-events">
@@ -21,17 +22,17 @@
 
         <form id="eventForm">
             <label for="titleInput">Titulo do Evento: </label>
-            <input type="text" id="titleEvent" placeholder="Digite o título" autofocus>
+            <input type="text" id="titleEvent" placeholder="Digite o título" autofocus required>
 
             <br>
 
             <label for="startEvent">Início: </label>
-            <input type="datetime-local" id="startEvent">
+            <input type="datetime-local" id="startEvent" required>
 
             <br>
 
             <label for="eventEnd">Fim: </label>
-            <input type="datetime-local" id="eventEnd">
+            <input type="datetime-local" id="eventEnd" required>
 
             <br>
 

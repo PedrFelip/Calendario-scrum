@@ -15,12 +15,11 @@ export function setupDayCell(info, CriadorEventos) {
     });
 
     info.el.addEventListener("click", () => { // Função que abre o criador de eventos
-        document.querySelector('.criar-evento').classList.add('ativo');  // Exibe a caixa de criação
-        document.querySelector('.overlay').classList.add('ativo');  // Exibe a sobreposição
-        document.body.classList.add('body-blur');  // Bloqueia a interação com o conteúdo por trás
+        CriadorEventos.classList.add("ativo");
+        document.querySelector(".overlay").classList.add("ativo");
     });
 }
-export function OcultarCaixaCriarEvento(container){
+export function OcultarCaixaCriarEvento(container){ // Função para fechar o container de criação de evento
     container.styte.opacity = 0;
     container.style.pointerEvents = "none";
 }
