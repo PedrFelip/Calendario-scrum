@@ -72,8 +72,9 @@ body {
 }
 
 .fc-view-harness { /*Corpo do calendário*/
+    margin: auto;
     margin-left: 20px;
-    width: 95vw;
+    width: 90vw;
 }
 
 .fc-daygrid-day { /*Classe de cada quadrado*/
@@ -213,3 +214,4 @@ body {
     background-color: var(--fc-color01);
     color: white;
 }
+
