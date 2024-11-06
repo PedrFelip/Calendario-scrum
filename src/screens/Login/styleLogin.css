@@ -16,11 +16,7 @@ input{
     padding: 15px;
     border: none;
     outline: none;
-<<<<<<< HEAD
-    font size: 15px;
-=======
     font-size: 15px;
->>>>>>> 22efaa8a297ae51c3b3875adb5abebd423cdfd36
 
 }
 button{
@@ -30,19 +26,9 @@ button{
     width: 100%;
     border-radius: 10px;
     color: white;
-<<<<<<< HEAD
-    font size: 15px;
-}
-button-hover{
-    background-color: deepskyblue;
-    cursor: pointer;
-}
-
-=======
     font-size: 15px;
 }
 button-hover{
     background-color: deepskyblue;
     cursor: pointer;
 }
->>>>>>> 22efaa8a297ae51c3b3875adb5abebd423cdfd36
