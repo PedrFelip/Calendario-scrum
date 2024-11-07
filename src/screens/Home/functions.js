@@ -18,6 +18,11 @@ export function setupDayCell(info, CriadorEventos) {
         CriadorEventos.classList.add("ativo");
         document.querySelector(".overlay").classList.add("ativo");
     });
+
+    document.querySelector("#BotaoFecharEvento").addEventListener('click', ()=> {
+        CriadorEventos.classList.remove("ativo");
+        document.querySelector(".overlay").classList.remove("ativo");
+    })
 }
 
 export function setBackground(info) {
@@ -55,7 +60,7 @@ export function setBackground(info) {
 }
 
 export function OcultarCaixaCriarEvento(container){ // Função para fechar o container de criação de evento
-    container.styte.opacity = 0;
-    container.style.pointerEvents = "none";
+    container.classList.remove("ativo");
+    document.querySelector(".overlay").classList.remove("ativo");
 }
 

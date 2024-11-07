@@ -24,14 +24,13 @@ document.addEventListener('DOMContentLoaded', function() {
             right: "prev,next",
         },
 
-
         showNonCurrentDates: false,
     });
 
     calendar.render();
 
     // Função que fecha o Criador de Eventos
-    document.getElementById("FecharCriarEvento").addEventListener('click', () => {
+    document.getElementById("BotaoFecharEvento").addEventListener('click', () => {
         OcultarCaixaCriarEvento("container-events"); // Função para ocultar o container-events
     })
 });
