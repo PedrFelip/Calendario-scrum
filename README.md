@@ -12,8 +12,6 @@
 
   <p align="center">
     <br />
-    <br />
-    <br />
     ·
     <a href="https://github.com/PedrFelip/Calendario-scrum/issues"><strong>How to Report Bug</strong></a>
     .
