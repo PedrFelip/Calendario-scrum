@@ -21,7 +21,7 @@ export function setupDayCell(info, CriadorEventos) {
 }
 
 export function setBackground(info) {
-    const fundo = document.querySelector("background-container");
+    const fundo = document.querySelector(".background-container");
     
     // Pega o mês da visualização atual (0-11)
     var mesVisualizacao = info.view.currentStart.getMonth();
@@ -36,6 +36,9 @@ export function setBackground(info) {
             fundo.style.backgroundColor = "none";
             fundo.style.backgroundImage = "url(../../imagens/meses/junho.webp)";
             break;
+        case 9: // Outubro
+            fundo.style.backgroundColor = "none";
+            fundo.style.backgroundImage = "url(../../imagens/meses/outubro.jpg)";
         case 10: // Novembro
             fundo.style.backgroundColor = "none";
             fundo.style.backgroundImage = "url(../../imagens/meses/novembro.jpg)";
@@ -46,7 +49,7 @@ export function setBackground(info) {
             break;
         default:
             fundo.style.backgroundImage = "none";
-            fundo.style.backgroundColor = "black"; // Cor de fundo para outros meses
+            fundo.style.backgroundColor = "black";
             break;
     }
 }
