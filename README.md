@@ -20,7 +20,6 @@
     .
     <a href="https://github.com/PedrFelip/Calendario-scrum/issues">Report Bug</a>
 
-    ·
   </p>
 </div>
 
