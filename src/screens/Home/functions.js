@@ -1,27 +1,15 @@
 // Função Principal para configurar o comportamento das células do calendário
 export function setupDayCell(info, CriadorEventos) {
-    const hoverMessage = document.createElement("span");
-    hoverMessage.textContent = "Clique para abrir as notas";
-    hoverMessage.style.display = "none";
-    hoverMessage.classList.add("hover-message");
-    info.el.appendChild(hoverMessage);
-
-    info.el.addEventListener("mouseenter", () => { // Função para mostrar o placeholder (Clique para abrir o bloco de notas)
-        hoverMessage.style.display = "block";
-    });
-
-    info.el.addEventListener("mouseleave", () => { // Função para ocultar o placeholder
-        hoverMessage.style.display = "none";
-    });
+    const overlay = document.querySelector(".overlay");
 
     info.el.addEventListener("click", () => { // Função que abre o criador de eventos
         CriadorEventos.classList.add("ativo");
-        document.querySelector(".overlay").classList.add("ativo");
+        overlay.classList.add("ativo");
     });
 
-    document.querySelector("#BotaoFecharEvento").addEventListener('click', ()=> {
+    document.querySelector("#BotaoFecharEvento").addEventListener('click', ()=> { // Função que fecha o criador de eventos
         CriadorEventos.classList.remove("ativo");
-        document.querySelector(".overlay").classList.remove("ativo");
+        overlay.classList.remove("ativo");
     })
 }
 
@@ -53,9 +41,3 @@ export function setBackground(info) {
             break;
     }
 }
-
-export function OcultarCaixaCriarEvento(container){ // Função para fechar o container de criação de evento
-    container.classList.remove("ativo");
-    document.querySelector(".overlay").classList.remove("ativo");
-}
-

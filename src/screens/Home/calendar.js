@@ -1,4 +1,4 @@
-import { setupDayCell, OcultarCaixaCriarEvento, setBackground } from './functions.js';
+import { setupDayCell, setBackground } from './functions.js';
 
 // Link da documentação: https://fullcalendar.io/docs
 
@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const CriadorEventos = document.getElementById("container-events");
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        maxHeight: "100%",
-        locale: 'pt-br',
-        dayHeaderFormat: { weekday: 'long' },
-        fixedWeekCount: false,
+        initialView: 'dayGridMonth', // Define a forma de visualização inicial
+        maxHeight: "100%", // Define a altura máxima
+        locale: 'pt-br', // Define a linguagem do calendário
+        dayHeaderFormat: { weekday: 'long' }, // Configura o formato do dia da semana no header do calendário
+        fixedWeekCount: false, // Determina o número de semanas do mês (True = 6) (False = Depende da quantidade de semanas do mês)
 
         dayCellDidMount: function(info) {
             setupDayCell(info, CriadorEventos);
@@ -27,15 +27,10 @@ document.addEventListener('DOMContentLoaded', function() {
             right: "prev,next",
         },
 
-        showNonCurrentDates: false,
+        showNonCurrentDates: true,
     });
 
     calendar.render();
-
-    // Função que fecha o Criador de Eventos
-    document.getElementById("BotaoFecharEvento").addEventListener('click', () => {
-        OcultarCaixaCriarEvento("container-events"); // Função para ocultar o container-events
-    })
 });
 
 $("#calendar").FullCalendar({ // $() é usado para selecionar elemento do DOM mais fácil (JQuery)

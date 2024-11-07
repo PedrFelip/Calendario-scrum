@@ -41,7 +41,6 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -82,8 +81,7 @@ body {
 
 #fc-dom-1 { /*Estilização do mês e do ano*/
     font-size: 4em;
-    text-transform: capitalize;
-    letter-spacing: 0.15em;
+    text-transform: auto;
     margin-left: 20px;
 }
 
@@ -109,12 +107,20 @@ body {
     cursor: pointer;
 }
 
-.fc .fc-daygrid-day.fc-day-today { /*Classe para o dia atual*/
-    background-color: var(--fc-color02);
+.fc-day-past {
+    background-color: rgba(240, 248, 255, 0.17);
+    color: white;
+    font-weight: 600;
 }
 
-.fc-day-disabled { /*Classe para os dias inativos*/
-    opacity: 0;
+.fc .fc-daygrid-day.fc-day-today { /*Classe para o dia atual*/
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    background-color: black;
+    border-radius: 50%;
+
 }
 
 .fc-col-header-cell {
@@ -126,18 +132,8 @@ body {
     margin: 6px 6px 0px 0px;
 }
 
-/*Estilização da mensagem ("Clique para abrir notas")*/
-
-.hover-message {
-    display: none;
-    position: absolute;
-    transform: translate(0, -100%);
-    background-color: rgba(255, 255, 255, 0.8);
-    color: black;
-    padding: 4px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    pointer-events: none; /* Evita que o <span> interfira com os eventos de mouse */
+.fc .fc-daygrid-day.fc-day-today > .fc-daygrid-day-number {
+    background-color: #424769;
 }
 
 .fc-scrollgrid.fc-scrollgrid-liquid { /*Borda dos blocos do calendário (Não afeta nada)*/
