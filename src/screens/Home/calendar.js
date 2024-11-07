@@ -1,5 +1,7 @@
 import { setupDayCell, OcultarCaixaCriarEvento, setBackground } from './functions.js';
 
+// Link da documentação: https://fullcalendar.io/docs
+
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const CriadorEventos = document.getElementById("container-events");
@@ -8,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridMonth',
         maxHeight: "100%",
         locale: 'pt-br',
+        dayHeaderFormat: { weekday: 'long' },
         fixedWeekCount: false,
 
         dayCellDidMount: function(info) {
