@@ -12,13 +12,12 @@
 
   <p align="center">
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     ·
-    <a href="https://github.com/PedrFelip/Calendario-scrum/issues">How to Report Bug</a>
+    <a href="https://github.com/PedrFelip/Calendario-scrum/issues"><strong>How to Report Bug</strong></a>
     .
-    <a href="https://github.com/PedrFelip/Calendario-scrum/issues">Report Bug</a>
+    <a href="https://github.com/PedrFelip/Calendario-scrum/issues"><strong>Report Bug</strong></a>
 
   </p>
 </div>
