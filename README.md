@@ -8,7 +8,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Plan It</h3>
 
   <p align="center">
     <br />
@@ -16,7 +16,10 @@
     <br />
     <br />
     ·
+    <a href="https://github.com/PedrFelip/Calendario-scrum/issues">How to Report Bug</a>
+    .
     <a href="https://github.com/PedrFelip/Calendario-scrum/issues">Report Bug</a>
+
     ·
   </p>
 </div>
