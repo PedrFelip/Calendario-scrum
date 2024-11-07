@@ -26,9 +26,9 @@ db.serialize(() => {
 function createWindow() {
   const win = new BrowserWindow({
     width: 960,
-    height: 560,
+    height: 600,
     minWidth: 960, // Largura mínima
-    minHeight: 540, // Altura mínima
+    minHeight: 600, // Altura mínima
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
