@@ -21,23 +21,31 @@ export function setupDayCell(info, CriadorEventos) {
 }
 
 export function setBackground(info) {
-    const body = document.querySelector("body");
+    const fundo = document.querySelector("background-container");
     
     // Pega o mês da visualização atual (0-11)
     var mesVisualizacao = info.view.currentStart.getMonth();
 
     // Definindo o papel de parede para dezembro ou removendo o fundo
     switch (mesVisualizacao) {
-        case 10:
-            body.style.backgroundColor = "none";
-            body.style.backgroundImage = "url(../../imagens/meses/novembro.jpg)";
+        case 0: // Janeiro
+            fundo.style.backgroundColor = "none";
+            fundo.style.backgroundImage = "url(../../imagens/meses/janeiro.jpg";
+            break;
+        case 5:
+            fundo.style.backgroundColor = "none";
+            fundo.style.backgroundImage = "url(../../imagens/meses/junho.webp)"
+        case 10: // Novembro
+            fundo.style.backgroundColor = "none";
+            fundo.style.backgroundImage = "url(../../imagens/meses/novembro.jpg)";
+            break;
         case 11: // Dezembro
-            body.style.backgroundColor = "none";
-            body.style.backgroundImage = "url(../../imagens/meses/dezembro.jpg)";
+            fundo.style.backgroundColor = "none";
+            fundo.style.backgroundImage = "url(../../imagens/meses/dezembro.jpg)";
             break;
         default:
-            body.style.backgroundImage = "none";
-            body.style.backgroundColor = "black"; // Cor de fundo para outros meses
+            fundo.style.backgroundImage = "none";
+            fundo.style.backgroundColor = "black"; // Cor de fundo para outros meses
             break;
     }
 }

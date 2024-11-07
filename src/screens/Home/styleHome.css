@@ -32,15 +32,25 @@
 
 body {
     font-family: var(--fc-fonteInter);
-    background-image: url(../../imagens/meses/Natal.jpg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    background-color: black;
     color: white;
     display: grid;
 }
 
+.background-container {
+    position: fixed;   /* Para ficar fixo na tela */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;  /* Garante que a imagem de fundo cubra toda a tela */
+    background-position: center;
+    z-index: -1;  /* Coloca o fundo atrás do conteúdo da página */
+    pointer-events: none;  /* Evita que o fundo interfira nos cliques do usuário */
+}
+
 #calendar-container {
+    position: relative;
     width: 100%;
     height: 98vh; /* Altura total da viewport */
 }
