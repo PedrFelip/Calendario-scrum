@@ -17,24 +17,25 @@ document.addEventListener('DOMContentLoaded', function() {
             setupDayCell(info, CriadorEventos);
         },
 
-        datesSet: function(info){
-            setBackground(info);
+        datesSet: function(info){ // Função para mudar o background conforme os meses vão passar
+            setBackground(info); 
         },
 
-        headerToolbar: {
-            left: "title",
-            center: "",
-            right: "prev,next",
+        headerToolbar: { // Modelagem do header
+            left: "title", // Título com mês e ano
+            center: "", // Vazio
+            right: "prev,next", // Botões para navegações entre meses
         },
 
-        showNonCurrentDates: true,
+        showNonCurrentDates: true, // Mostrar dias de outros meses
 
-        events: eventos
+        events: eventos // Variável Eventos no arquivo data.js da pasta constants
     });
 
-    calendar.render();
+    calendar.render(); // Renderizar calendário
 });
 
+// Ainda irei mexer aqui
 $("#calendar").FullCalendar({ // $() é usado para selecionar elemento do DOM mais fácil (JQuery)
     selectable: true,
     select: function(start, end){

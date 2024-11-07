@@ -28,19 +28,23 @@
         </header>
 
         <form id="eventForm">
-            <label for="titleEvent">
+            <label>
                 Titulo do Evento: 
                 <input type="text" id="titleEvent" placeholder="Digite o título" autofocus required>
             </label>
 
-            <label for="startEvent">
+            <label>
                 Início: 
                 <input type="date" id="startEventDate" class="Startevent" required title="Inicio do evento">
             </label>
 
-            <label for="endEvent">
+            <label>
                 Fim: 
                 <input type="date" id="endEventDate" class="Endevent" required title="Fim do evento">
+            </label>
+
+            <label>
+                <input type="text" id="descriptionEvent" title="Descrição do evento">
             </label>
 
             <button id="saveEvent" onclick="saveEvent()">Salvar evento</button>
