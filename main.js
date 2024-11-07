@@ -76,3 +76,29 @@ ipcMain.on('login-attempt', (event, { username, password }) => {
     }
   });
 });
+
+
+//logs para testes
+ipcMain.on('login-attempt', (event, { username, password }) => {
+  console.log('Tentativa de login recebida:', username);
+  
+  const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
+  db.get(query, [username, password], (err, row) => {
+    if (err) {
+      console.error('Erro na consulta ao banco de dados:', err);
+    }
+
+    console.log('Resultado da consulta:', row);
+
+    if (row) {
+      event.reply('login-response', { success: true });
+    } else {
+      event.reply('login-response', { success: false, message: 'Usuário ou senha incorretos.' });
+    }
+  });
+});
+
+ipcMain.on('signup-attempt', (event, { username, password }) => {
+  console.log('Tentativa de cadastro recebida:', username);
+  // Lógica de cadastro...
+});
