@@ -1,17 +1,45 @@
 # Calendario-scrum
-<a id="voltar"></a>
+<a id="readme-top"></a>
 
-Nome do projeto : PLAN IT 
+# PLAN IT
 
-Este projeto , o PLAN IT busca solucionar as dificuldades  de agendar eventos , ou seja é uma aplicação de software desenvolvida para criar , editar e apagar eventos nessa primeira versão, sendo intuitivo e eficiente para os clientes . 
+**PLAN IT** é um projeto acadêmico desenvolvido como parte de um trabalho prático para aplicar os conceitos da metodologia **Scrum**. O objetivo é criar um software funcional que ajude a solucionar as dificuldades que as pessoas enfrentam ao agendar e gerenciar eventos.
 
-O PLAN IT resolve os problemas de algumas pessoas de marca eventos e se confundir , errar datas e horários , então esse software foi desenvolvido para ser fácil e simples de se aplicar na prática do dia a dia .
+## Por que o PLAN IT?
 
-Um software parecido seria o Google calemdar , que ele é feito para marcar , organizar e gerenciar eventos , e tendo relação com a nosso projeto , mas o PLAN IT sendo mas intuitivo e é fácil sua utilização.
+Muitas pessoas enfrentam problemas ao tentar organizar suas agendas, como:
 
+- **Confusões de horários**;
+- **Erro nas datas de eventos**;
+- **Falta de controle sobre compromissos simultâneos**.
 
+O **PLAN IT** foi concebido para ser uma solução **intuitiva**, **eficiente** e **simples de usar**, auxiliando os usuários a manterem suas rotinas organizadas de maneira prática.
 
+## Funcionalidades da Primeira Versão
 
+- **Criar eventos**: Adicione novos compromissos à agenda.
+- **Editar eventos**: Modifique informações de eventos já registrados.
+- **Apagar eventos**: Remova compromissos que não são mais necessários.
 
-<p align="right">(<a href="#voltar">back to top</a>)</p>
+## Comparação com o Google Calendar
+
+Embora tenha semelhanças com ferramentas populares, como o **Google Calendar**, o **PLAN IT** foca em uma interface mais **direta e simplificada**, ideal para usuários que preferem uma experiência prática e descomplicada.
+
+## Contexto Acadêmico e Metodologia Scrum
+
+Este projeto é parte de um trabalho acadêmico onde a equipe está aprendendo e aplicando **Scrum**, uma metodologia ágil amplamente utilizada no desenvolvimento de software. O Scrum promove:
+
+- **Colaboração eficiente** entre os membros da equipe;
+- **Entregas iterativas e incrementais**;
+- **Adaptação contínua** às necessidades do projeto.
+
+## Objetivos Educacionais
+
+Com o desenvolvimento do **PLAN IT**, buscamos:
+
+- **Compreender na prática** os papéis de **Product Owner (PO)**, **Scrum Master** e **Time de Desenvolvimento**;
+- **Realizar sprints** com entregas contínuas de incrementos do software;
+- **Coletar feedback** para melhoria do produto ao longo do desenvolvimento.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
