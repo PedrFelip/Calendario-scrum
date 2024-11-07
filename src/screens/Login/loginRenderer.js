@@ -1,27 +1,32 @@
 const { ipcRenderer } = require('electron');
 
 document.getElementById('form-login').addEventListener('submit', (event) => {
-  event.preventDefault(); // Impede o envio padrão do formulário
+  event.preventDefault(); // Evita o comportamento padrão de envio do formulário
 
-  const username = document.getElementById('login-username').value;
-  const password = document.getElementById('login-password').value;
+  const username = document.getElementById('login-username');
+  const password = document.getElementById('login-password');
+  const inputs = [username, password];
 
-  const inputs = document.querySelectorAll('input');
-
-  // Desabilitar os campos temporariamente durante o envio
+  // Bloqueia os campos temporariamente
   inputs.forEach(input => input.disabled = true);
 
-  // Enviar dados para o processo principal para login
-  ipcRenderer.send('login-attempt', { username, password });
+  // Enviar tentativa de login
+  ipcRenderer.send('login-attempt', {
+    username: username.value,
+    password: password.value
+  });
 
-  // Garantir que os campos serão reativados após resposta
+  // Receber a resposta do processo principal
   ipcRenderer.once('login-response', (event, response) => {
-    inputs.forEach(input => input.disabled = false); // Reativar campos
+    inputs.forEach(input => input.disabled = false); // Reativa os campos
 
     const messageBox = document.getElementById('message-box');
     if (response.success) {
-      alert('Login realizado com sucesso! Redirecionando para a home...');
-      window.location.href = '../Home/telaHome.html';
+      messageBox.textContent = 'Login realizado com sucesso!';
+      messageBox.className = 'success-message';
+      setTimeout(() => {
+        window.location.href = '../Home/telaHome.html'; // Redireciona em caso de sucesso
+      }, 1000);
     } else {
       messageBox.textContent = `Erro: ${response.message}`;
       messageBox.className = 'error-message';
