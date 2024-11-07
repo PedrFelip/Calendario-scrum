@@ -9,6 +9,7 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
     <script src="calendar.js" type="module" defer></script>
     <script src="functions.js" type="module" defer></script>
+    <script src="../../constants/data.js" type="module"></script>
 </head>
 <body>
     <div class="background-container"></div>
@@ -27,20 +28,20 @@
         </header>
 
         <form id="eventForm">
-            <label for="titleEvent">Titulo do Evento: </label>
-            <input type="text" id="titleEvent" placeholder="Digite o título" autofocus required>
+            <label for="titleEvent">
+                Titulo do Evento: 
+                <input type="text" id="titleEvent" placeholder="Digite o título" autofocus required>
+            </label>
 
-            <br>
+            <label for="startEvent">
+                Início: 
+                <input type="date" id="startEventDate" class="Startevent" required title="Inicio do evento">
+            </label>
 
-            <label for="startEvent">Início: </label>
-            <input type="datetime-local" id="startEvent" required title="Inicio do evento">
-
-            <br>
-
-            <label for="endEvent">Fim: </label>
-            <input type="datetime-local" id="endEvent" required title="Fim do evento">
-
-            <br>
+            <label for="endEvent">
+                Fim: 
+                <input type="date" id="endEventDate" class="Endevent" required title="Fim do evento">
+            </label>
 
             <button id="saveEvent" onclick="saveEvent()">Salvar evento</button>
         </form>
