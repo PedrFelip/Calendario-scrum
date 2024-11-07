@@ -32,9 +32,10 @@ export function setBackground(info) {
             fundo.style.backgroundColor = "none";
             fundo.style.backgroundImage = "url(../../imagens/meses/janeiro.jpg";
             break;
-        case 5:
+        case 5: // Junho
             fundo.style.backgroundColor = "none";
-            fundo.style.backgroundImage = "url(../../imagens/meses/junho.webp)"
+            fundo.style.backgroundImage = "url(../../imagens/meses/junho.webp)";
+            break;
         case 10: // Novembro
             fundo.style.backgroundColor = "none";
             fundo.style.backgroundImage = "url(../../imagens/meses/novembro.jpg)";
