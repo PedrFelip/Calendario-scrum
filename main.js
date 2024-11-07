@@ -76,3 +76,15 @@ ipcMain.on('login-attempt', (event, { username, password }) => {
     }
   });
 });
+
+
+//logs para testes
+ipcMain.on('login-attempt', (event, { username, password }) => {
+  console.log('Tentativa de login recebida:', username);
+  // Lógica de autenticação...
+});
+
+ipcMain.on('signup-attempt', (event, { username, password }) => {
+  console.log('Tentativa de cadastro recebida:', username);
+  // Lógica de cadastro...
+});
