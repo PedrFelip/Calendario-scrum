@@ -3,4 +3,4 @@ dist/
 *.log
 .env
 .vscode
-calendario.dbcalendario.db
+calendario.db
