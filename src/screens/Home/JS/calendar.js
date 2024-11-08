@@ -31,8 +31,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         showNonCurrentDate: true, // Mostra ou não os dias que não pertencem ao mês de visualização
 
-        events: "",
-        });
+        events: [
+            {
+                title: "Evento Teste",
+                start: "2024-11-12",
+                end: "2024-11-15"
+            }
+        ],
+
+        eventClick: function(info){
+            const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
+
+            visualizarModal.show();
+        }
+
+    });
 
     calendar.render();
 });
