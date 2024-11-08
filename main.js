@@ -1,44 +1,9 @@
-const { app, BrowserWindow, ipcMain } = require('electron'); // Electron modules
-const express = require('express'); // Express para API
-const sqlite3 = require('sqlite3').verbose();
+const { app, BrowserWindow, ipcMain } = require('electron');
+const api = require('./src/constants/api'); // Rota de API
+const db = require('./src/constants/database'); // Conexão com o banco de dados
 const path = require('path');
 
-// Inicia o servidor Express
-const api = express();
-api.use(express.json());
-
-// Conectar ao banco de dados SQLite
-const dbPath = path.join(__dirname, 'calendario.db');
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err);
-  } else {
-    console.log('Conectado ao banco de dados SQLite');
-  }
-});
-
-// Cria as tabelas se não existirem
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      username TEXT UNIQUE,
-      password TEXT
-    )
-  `);
-
-  db.run(`
-    CREATE TABLE IF NOT EXISTS events (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      start_date TEXT NOT NULL,
-      end_date TEXT NOT NULL,
-      description TEXT,
-    )
-  `);
-});
-
-// Função para criar a janela do Electron
+// Função para criar a janela principal do Electron
 function createWindow() {
   const win = new BrowserWindow({
     width: 960,
@@ -51,97 +16,78 @@ function createWindow() {
     },
   });
 
-  win.loadFile('src/escolhaInicial.html');
+  console.log('Tentando carregar:', path.join(__dirname, 'src', 'escolhaInicial.html'));
+
+  win.loadFile(path.join(__dirname, 'src', 'escolhaInicial.html'));
 }
 
-// Inicia o app Electron
+// Inicia o aplicativo Electron
 app.whenReady().then(() => {
   createWindow();
 
-  // No macOS, recria a janela se não houver janelas abertas ao ativar o app
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
-// Fecha a aplicação, exceto no macOS
+// Fecha o aplicativo, exceto no macOS
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Lógica de cadastro
+// Rotas de IPC para lógica interna
+
+// Lógica de Cadastro
 ipcMain.on('signup-attempt', (event, { username, password }) => {
-  const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
-  db.run(query, [username, password], function (err) {
+  console.log('Tentativa de cadastro recebida:', username);
+  
+  const query = `SELECT username FROM users WHERE username = ?`;
+  db.get(query, [username], (err, row) => {
     if (err) {
-      event.reply('signup-response', { success: false, message: 'Erro ao cadastrar. Usuário já existente.' });
+      console.error('Erro ao verificar usuário:', err);
+      event.reply('signup-response', { success: false, message: 'Erro interno no sistema.' });
+      return;
+    }
+
+    if (row) {
+      event.reply('signup-response', { success: false, message: 'Usuário já existente.' });
     } else {
-      event.reply('signup-response', { success: true });
+      const insertQuery = `INSERT INTO users (username, password) VALUES (?, ?)`;
+      db.run(insertQuery, [username, password], function (err) {
+        if (err) {
+          console.error('Erro ao cadastrar usuário:', err);
+          event.reply('signup-response', { success: false, message: 'Erro ao cadastrar usuário.' });
+        } else {
+          event.reply('signup-response', { success: true });
+        }
+      });
     }
   });
 });
 
-// Lógica de login
+// Lógica de Login
 ipcMain.on('login-attempt', (event, { username, password }) => {
+  console.log('Tentativa de login recebida:', username);
+  
   const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
   db.get(query, [username, password], (err, row) => {
+    if (err) {
+      console.error('Erro ao buscar usuário:', err);
+      event.reply('login-response', { success: false, message: 'Erro interno no sistema.' });
+      return;
+    }
+
     if (row) {
+      console.log('Login bem-sucedido para:', username);
       event.reply('login-response', { success: true });
     } else {
-      event.reply('login-response', { success: false, message: 'Usuário ou senha incorretos.' });
+      console.log('Login falhou para:', username);
+      event.reply('login-response', { success: false, message: 'Usuário ou senha inválidos.' });
     }
   });
 });
 
-// Rota para criar um evento
-api.post('/api/events', (req, res) => {
-  const { title, start_date, end_date, description, location } = req.body;
-  const query = `INSERT INTO events (title, start_date, end_date, description, location) VALUES (?, ?, ?, ?, ?)`;
-  db.run(query, [title, start_date, end_date, description, location], function (err) {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Erro ao criar evento' });
-    }
-    res.status(200).json({ success: true, id: this.lastID });
-  });
-});
-
-// Rota para listar os eventos
-api.get('/api/events', (req, res) => {
-  const query = `SELECT * FROM events`;
-  db.all(query, [], (err, rows) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Erro ao buscar eventos' });
-    }
-    res.status(200).json({ success: true, events: rows });
-  });
-});
-
-// Rota para atualizar um evento
-api.put('/api/events/:id', (req, res) => {
-  const { id } = req.params;
-  const { title, start_date, end_date, description, location } = req.body;
-  const query = `UPDATE events SET title = ?, start_date = ?, end_date = ?, description = ?, location = ? WHERE id = ?`;
-  db.run(query, [title, start_date, end_date, description, location, id], function (err) {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Erro ao atualizar evento' });
-    }
-    res.status(200).json({ success: true });
-  });
-});
-
-// Rota para excluir um evento
-api.delete('/api/events/:id', (req, res) => {
-  const { id } = req.params;
-  const query = `DELETE FROM events WHERE id = ?`;
-  db.run(query, [id], function (err) {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Erro ao excluir evento' });
-    }
-    res.status(200).json({ success: true });
-  });
-});
-
-// Inicia o servidor Express em uma porta específica (ex.: 3000)
+// Inicializa o servidor Express
 api.listen(3000, () => {
-  console.log('Servidor API rodando em http://localhost:3000');
+  console.log('Servidor Express rodando em http://localhost:3000');
 });

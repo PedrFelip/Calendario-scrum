@@ -95,3 +95,24 @@ form > #botaoCadastro:hover {
     display: block;
     flex: 65%;
 }
+
+#message-box {
+    font-size: 14px;
+    text-align: center;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.success-message {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+
