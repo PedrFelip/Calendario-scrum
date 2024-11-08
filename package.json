@@ -25,6 +25,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
     "@types/electron": "^1.6.12",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "fullcalendar": "^6.1.15",

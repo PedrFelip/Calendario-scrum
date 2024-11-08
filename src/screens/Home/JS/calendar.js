@@ -6,34 +6,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Instanciando FullCalendar.Calendar dentro da variável calendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
-    headerToolbar: {
+
+    headerToolbar: { // Cabeçalho do calendário
         left: 'prev,next today',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay'
     },
-    initialDate: '2023-01-12',
-    navLinks: true, // can click day/week names to navigate views
-    selectable: true,
-    selectMirror: true,
-    select: function(arg) {
-        var title = prompt('Event Title:');
-        if (title) {
-        calendar.addEvent({
-            title: title,
-            start: arg.start,
-            end: arg.end,
-            allDay: arg.allDay
-        })
-        }
-        calendar.unselect()
-    },
-    eventClick: function(arg) {
-        if (confirm('Are you sure you want to delete this event?')) {
-        arg.event.remove()
-        }
-    },
-    editable: true,
-    dayMaxEvents: true, // allow "more" link when too many events
+
+    locale: 'pt-br', // Linguagem do calendário
+
+    initialDate: '2023-01-12', // Data para inicializar
+
+    navLinks: true, // Permite clicar nos nomes dos dias da semana
+
+    selectable: true, // Permite clicar e arrastar o mouse sobre um ou vários dias do calendário
+
+    selectMirror: true, // Indica a área que foi selecionada, antes de realizar algo
+
+    editable: true, // Permite arrastar e redimensionar eventos no calendário
+
+    dayMaxEvents: true, // Determina o número de eventos que serão mostrados, ao tamanho da célula
     events: [
         {
         title: 'All Day Event',
