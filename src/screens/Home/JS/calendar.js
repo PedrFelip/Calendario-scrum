@@ -1,5 +1,5 @@
 import { setupDayCell, setBackground, DataHeaderEvents } from './functions.js';
-import { eventos } from '../../constants/data.js';
+import { eventos } from '../../../constants/data.js';
 // Link da documentação: https://fullcalendar.io/docs
 
 document.addEventListener('DOMContentLoaded', function() {
