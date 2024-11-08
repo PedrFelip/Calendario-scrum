@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const api = require('./src/constants/api'); // Rota de API
+const db = require('./src/constants/database'); // Conexão com o banco de dados
 const path = require('path');
 
 // Função para criar a janela principal do Electron
@@ -35,26 +36,53 @@ app.on('window-all-closed', () => {
 });
 
 // Rotas de IPC para lógica interna
+
+// Lógica de Cadastro
 ipcMain.on('signup-attempt', (event, { username, password }) => {
-  const db = require('./src/constants/database');
-  const query = `INSERT INTO users (username, password) VALUES (?, ?)`;
-  db.run(query, [username, password], function (err) {
+  console.log('Tentativa de cadastro recebida:', username);
+  
+  const query = `SELECT username FROM users WHERE username = ?`;
+  db.get(query, [username], (err, row) => {
     if (err) {
+      console.error('Erro ao verificar usuário:', err);
+      event.reply('signup-response', { success: false, message: 'Erro interno no sistema.' });
+      return;
+    }
+
+    if (row) {
       event.reply('signup-response', { success: false, message: 'Usuário já existente.' });
     } else {
-      event.reply('signup-response', { success: true });
+      const insertQuery = `INSERT INTO users (username, password) VALUES (?, ?)`;
+      db.run(insertQuery, [username, password], function (err) {
+        if (err) {
+          console.error('Erro ao cadastrar usuário:', err);
+          event.reply('signup-response', { success: false, message: 'Erro ao cadastrar usuário.' });
+        } else {
+          event.reply('signup-response', { success: true });
+        }
+      });
     }
   });
 });
 
+// Lógica de Login
 ipcMain.on('login-attempt', (event, { username, password }) => {
-  const db = require('./src/constants/database');
+  console.log('Tentativa de login recebida:', username);
+  
   const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
   db.get(query, [username, password], (err, row) => {
+    if (err) {
+      console.error('Erro ao buscar usuário:', err);
+      event.reply('login-response', { success: false, message: 'Erro interno no sistema.' });
+      return;
+    }
+
     if (row) {
+      console.log('Login bem-sucedido para:', username);
       event.reply('login-response', { success: true });
     } else {
-      event.reply('login-response', { success: false, message: 'Credenciais inválidas.' });
+      console.log('Login falhou para:', username);
+      event.reply('login-response', { success: false, message: 'Usuário ou senha inválidos.' });
     }
   });
 });
