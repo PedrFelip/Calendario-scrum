@@ -1,75 +1,96 @@
-import { setupDayCell, setBackground, DataHeaderEvents } from './functions.js';
-import { eventos } from '../../../constants/data.js';
-// Link da documentação: https://fullcalendar.io/docs
-
+// Executa quando todo o arquivo HTMl for carregado
 document.addEventListener('DOMContentLoaded', function() {
-    const calendarEl = document.getElementById('calendar');
-    const CriadorEventos = document.getElementById("container-events");
-    var dataSelecionada;
 
-    let calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth', // Define a forma de visualização inicial
-        maxHeight: "100%", // Define a altura máxima
-        locale: 'pt-br', // Define a linguagem do calendário 
-        dayHeaderFormat: { weekday: 'long' }, // Configura o formato do dia da semana no header do calendário
-        fixedWeekCount: false, // Determina o número de semanas do mês (True = 6) (False = Depende da quantidade de semanas do mês)
+    // Recebendo o seletor CALENDAR do atributo id
+    var calendarEl = document.getElementById('calendar');
 
-        dayCellDidMount: function(info) {
-            setupDayCell(info, CriadorEventos);
+    // Instanciando FullCalendar.Calendar dentro da variável calendar
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    initialDate: '2023-01-12',
+    navLinks: true, // can click day/week names to navigate views
+    selectable: true,
+    selectMirror: true,
+    select: function(arg) {
+        var title = prompt('Event Title:');
+        if (title) {
+        calendar.addEvent({
+            title: title,
+            start: arg.start,
+            end: arg.end,
+            allDay: arg.allDay
+        })
+        }
+        calendar.unselect()
+    },
+    eventClick: function(arg) {
+        if (confirm('Are you sure you want to delete this event?')) {
+        arg.event.remove()
+        }
+    },
+    editable: true,
+    dayMaxEvents: true, // allow "more" link when too many events
+    events: [
+        {
+        title: 'All Day Event',
+        start: '2023-01-01'
         },
-
-        datesSet: function(info){ // Função para mudar o background conforme os meses vão passar
-            setBackground(info); 
+        {
+        title: 'Long Event',
+        start: '2023-01-07',
+        end: '2023-01-10'
         },
-
-        dateClick: function(info){
-            var dia = String(info.date.getDate()).padStart(2, "0");
-            var mes = String(info.date.getMonth() + 1).padStart(2, "0");
-            
-            dataSelecionada = `${dia}/${mes}`;
-
-            DataHeaderEvents(dataSelecionada)
+        {
+        groupId: 999,
+        title: 'Repeating Event',
+        start: '2023-01-09T16:00:00'
         },
-
-        HeaderToolbar: { // Modelagem do header
-            left: "title", // Título com mês e ano
-            center: "", // Vazio
-            right: "prev,next", // Botões para navegações entre meses
+        {
+        groupId: 999,
+        title: 'Repeating Event',
+        start: '2023-01-16T16:00:00'
         },
-
-        showNonCurrentDates: true, // Mostrar dias de outros meses
-
-        events: eventos // Variável Eventos no arquivo data.js da pasta constants
+        {
+        title: 'Conference',
+        start: '2023-01-11',
+        end: '2023-01-13'
+        },
+        {
+        title: 'Meeting',
+        start: '2023-01-12T10:30:00',
+        end: '2023-01-12T12:30:00'
+        },
+        {
+        title: 'Lunch',
+        start: '2023-01-12T12:00:00'
+        },
+        {
+        title: 'Meeting',
+        start: '2023-01-12T14:30:00'
+        },
+        {
+        title: 'Happy Hour',
+        start: '2023-01-12T17:30:00'
+        },
+        {
+        title: 'Dinner',
+        start: '2023-01-12T20:00:00'
+        },
+        {
+        title: 'Birthday Party',
+        start: '2023-01-13T07:00:00'
+        },
+        {
+        title: 'Click for Google',
+        url: 'http://google.com/',
+        start: '2023-01-28'
+        }
+    ]
     });
 
-    calendar.render(); // Renderizar calendário
+    calendar.render();
 });
-
-// Ainda irei mexer aqui
-$("#calendar").FullCalendar({ // $() é usado para selecionar elemento do DOM mais fácil (JQuery)
-    selectable: true,
-    select: function(start, end){
-        
-        // Pegando o formulário
-        $("#eventForm").show();
-
-        $("#startEventDate").val(start.format("DD-MM-YYYY"));
-        $("#endEventDate").val(end.format("DD-MM-YYYY"));
-
-        window.saveEvent = function(){
-            var title = $("#titleEvent").val();
-            var start = $("#startEventDate").val();
-            var end = $("#endEventDate").val();
-
-            if(title, start, end){
-                $("#calendar").FullCalendar('renderEvent', {
-                    title: title,
-                    start: start,
-                    end: end
-                });
-
-                $("#eventForm").hide();
-            }
-        }
-    }
-})

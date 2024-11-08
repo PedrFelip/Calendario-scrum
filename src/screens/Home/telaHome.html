@@ -4,59 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="styleHome.css">
+    <link rel="stylesheet" href="./Style/style.css">
     <link rel="shortcut icon" href="../../imagens/FaviconLogo1.jpg" type="image/x-icon">
 </head>
 <body>
-    <div class="background-container"></div>
+    <div id="calendar"></div>
 
-    <div id="calendar-container">
-        <div id="calendar"></div>
-        <div id="eventosUser">
-            <img src="../../imagens/meses/dezembro.jpg" alt="Imagem superior">
-            <div id="headerEvents">
-                <div id="titleHeaderEvents"></div>
-            </div>
-            <div id="bodyEvents">
-            </div>
-        </div>
-    </div>
-
-    <div class="overlay"></div>
-    <div id="container-events">
-
-        <header id="header-events">
-            <h3>Criação de Evento</h3>
-            <button id="BotaoFecharEvento">X</button>
-        </header>
-
-        <form id="eventForm">
-            <label>
-                Titulo do Evento: 
-                <input type="text" id="titleEvent" placeholder="Digite o título" autofocus required>
-            </label>
-
-            <label>
-                Início: 
-                <input type="date" id="startEventDate" class="Startevent" required title="Inicio do evento">
-            </label>
-
-            <label>
-                Fim: 
-                <input type="date" id="endEventDate" class="Endevent" required title="Fim do evento">
-            </label>
-
-            <label>
-                <input type="text" id="descriptionEvent" title="Descrição do evento">
-            </label>
-
-            <button id="saveEvent" onclick="saveEvent()">Salvar evento</button>
-        </form>
-    </div>
-
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src="./JS/index.global.min.js"></script>
+    <script src=""></script>
     <script src="./JS/calendar.js" type="module" defer></script>
     <script src="./JS/functions.js" type="module" defer></script>
-    <script src="../../constants/data.js" type="module"></script>
 </body>
 </html>
