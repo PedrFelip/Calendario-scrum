@@ -1,12 +1,13 @@
-import { setupDayCell, setBackground } from './functions.js';
+import { setupDayCell, setBackground, DataHeaderEvents } from './functions.js';
 import { eventos } from '../../constants/data.js';
 // Link da documentação: https://fullcalendar.io/docs
 
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const CriadorEventos = document.getElementById("container-events");
+    var dataSelecionada;
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+    let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth', // Define a forma de visualização inicial
         maxHeight: "100%", // Define a altura máxima
         locale: 'pt-br', // Define a linguagem do calendário 
@@ -21,7 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
             setBackground(info); 
         },
 
-        headerToolbar: { // Modelagem do header
+        dateClick: function(info){
+            var dia = String(info.date.getDate()).padStart(2, "0");
+            var mes = String(info.date.getMonth() + 1).padStart(2, "0");
+            
+            dataSelecionada = `${dia}/${mes}`;
+
+            DataHeaderEvents(dataSelecionada)
+        },
+
+        HeaderToolbar: { // Modelagem do header
             left: "title", // Título com mês e ano
             center: "", // Vazio
             right: "prev,next", // Botões para navegações entre meses
