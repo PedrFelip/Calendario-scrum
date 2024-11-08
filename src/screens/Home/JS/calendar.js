@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     locale: 'pt-br', // Linguagem do calendário
 
-    initialDate: '2023-01-12', // Data para inicializar
-
     navLinks: true, // Permite clicar nos nomes dos dias da semana
 
     selectable: true, // Permite clicar e arrastar o mouse sobre um ou vários dias do calendário
