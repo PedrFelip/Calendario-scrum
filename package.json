@@ -28,6 +28,7 @@
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "express": "^4.21.1",
     "fullcalendar": "^6.1.15",
     "save-dev": "^0.0.1-security",
     "sqlite3": "^5.1.7"
