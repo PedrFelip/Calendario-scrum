@@ -14,15 +14,6 @@ export function setupDayCell(info, CriadorEventos) {
 
 }
 
-export function setBackground(info) {
-    const fundo = document.querySelector("#imagemSuperior");
-    
-    // Pega o mês da visualização atual (1-12)
-    var mesVisualizacao = info.view.currentStart.getMonth() + 1;
-
-    
-}
-
 export function DataHeaderEvents(dataSelecionada) {
     const TitleHeaderEvents = document.querySelector("#titleHeaderEvents");
 
