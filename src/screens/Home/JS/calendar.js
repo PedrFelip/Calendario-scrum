@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enviando informações para o Modal
             document.getElementById("visualizarTitulo").innerText = info.event.title;
             document.getElementById("visualizarInicio").innerText = info.event.start.toLocaleString();
-            document.getElementById("visualizarFim").innerText = info.event.end.toLocaleString();
+            document.getElementById("visualizarFim").innerText = info.event.end !== null ? info.event.end.toLocaleString() : info.event.start.toLocaleString();
             document.getElementById("visualizarDescricao").innerText = info.event.description;
         },
 
