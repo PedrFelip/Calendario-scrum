@@ -16,9 +16,9 @@ function createWindow() {
     },
   });
 
-  console.log('Tentando carregar:', path.join(__dirname, 'src', 'Start/escolhaInicial.html'));
+  console.log('Tentando carregar:', path.join(__dirname, 'src', './screens/Start/escolhaInicial.html'));
 
-  win.loadFile(path.join(__dirname, 'src', 'escolhaInicial.html'));
+  win.loadFile(path.join(__dirname, 'src', './screens/Start/escolhaInicial.html'));
 }
 
 // Inicia o aplicativo Electron
