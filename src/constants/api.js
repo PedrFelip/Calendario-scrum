@@ -12,6 +12,10 @@ api.post('/api/events', (req, res) => {
     return res.status(400).json({ success: false, message: 'ID do usuário é obrigatório.' });
   }
 
+  if (!title || !start_date || !end_date) {
+    return res.status(400).json({ success: false, message: 'Campos obrigatórios não preenchidos.' });
+  }
+
   const query = `
     INSERT INTO events (title, start_date, end_date, description, user_id) 
     VALUES (?, ?, ?, ?, ?)
@@ -47,6 +51,10 @@ api.put('/api/events/:id', (req, res) => {
 
   if (!user_id) {
     return res.status(400).json({ success: false, message: 'ID do usuário é obrigatório.' });
+  }
+
+  if (!title || !start_date || !end_date) {
+    return res.status(400).json({ success: false, message: 'Campos obrigatórios não preenchidos.' });
   }
 
   const query = `

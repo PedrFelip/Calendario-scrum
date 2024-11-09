@@ -7,14 +7,12 @@
 
     <link rel="shortcut icon" href="../../imagens/FaviconLogo1.jpg" type="image/x-icon">
     <link rel="stylesheet" href="./Style/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
     <div id="calendar"></div>
-  
+
     <!-- Modal para Visualizar detalhes do evento -->
     <div class="modal fade" id="visualizarModal" tabindex="-1" aria-labelledby="visualizarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -37,9 +35,12 @@
                         <dd class="col-sm-9" id="visualizarFim"></dd>
                     </dl>
                     <dl class="row">
-                        <dt class="col-sm-3">Descrição</dt>
+                        <dt class="col-sm-3">Descrição:</dt>
                         <dd class="col-sm-9" id="visualizarDescricao"></dd>
                     </dl>
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteEventButton" class="btn btn-danger">Excluir Evento</button>
                 </div>
             </div>
         </div>
@@ -58,74 +59,39 @@
                         <div class="row mb-3">
                             <label for="cadastrarTitulo" class="col-sm-2 col-form-label">Título:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="cadastrarTitulo" class="form-control" id="cadastrarTitulo" required placeholder="Titulo do Evento (Obrigatório)">
+                                <input type="text" name="title" class="form-control" id="cadastrarTitulo" required placeholder="Título do Evento">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="cadastrarInicio" class="col-sm-2 col-form-label">Início:</label>
                             <div class="col-sm-10">
-                                <input type="datetime-local" name="cadastrarInicio" class="form-control" id="cadastrarInicio" required>
+                                <input type="datetime-local" name="start_date" class="form-control" id="cadastrarInicio" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="cadastrarFim" class="col-sm-2 col-form-label">Fim:</label>
                             <div class="col-sm-10">
-                                <input type="datetime-local" name="cadastrarFim" class="form-control" id="cadastrarFim" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="cadastrarCor" class="col-sm-2 col-form-label">Cor:</label>
-                            <div class="col-sm-10">
-                                <select name="cadastrarCor" id="cadastrarCor" class="form-control" style="cursor: pointer;">
-                                    <option value="">Selecione uma cor:</option>
-                                    <option style="color: #FFD700;" value="#FFD700">◉ Amarelo</option>
-                                    <option style="color: #0071c5;" value="#0071c5">◉ Azul Turquesa</option>
-                                    <option style="color: #FF4500;" value="#FF4500">◉ Laranja</option>
-                                    <option style="color: #8B4513;" value="#8B4513">◉ Marrom</option>
-                                    <option style="color: #1C1C1C;" value="#1C1C1C">◉ Preto</option>
-                                    <option style="color: #436EEE;" value="#436EEE">◉ Royal Blue</option>
-                                    <option style="color: #A020F0;" value="#A020F0">◉ Roxo</option>
-                                    <option style="color: #40E0D0;" value="#40E0D0">◉ Turquesa</option>
-                                    <option style="color: #228B22;" value="#228B22">◉ Verde</option>
-                                    <option style="color: #8B0000;" value="#8B0000">◉ Vermelho</option>
-                                </select>
+                                <input type="datetime-local" name="end_date" class="form-control" id="cadastrarFim" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="cadastrarDescricao" class="col-sm-2 col-form-label">Descrição:</label>
                             <div class="col-sm-10">
-                                <input type="text" name="cadastrarDescricao" class="form-control" id="cadastrarDescricao" placeholder="(Opcional)">
+                                <input type="text" name="description" class="form-control" id="cadastrarDescricao" placeholder="Descrição do Evento (Opcional)">
                             </div>
                         </div>
 
-                        <button type="submit" name="btnCadEvento" id="btnCadEvento" class="btn btn-success">Cadastrar</button>
+                        <button type="submit" id="btnCadEvento" class="btn btn-success">Cadastrar</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Alerta de sucesso -->
-    <div class="alert alert-success d-flex align-items-center" role="alert" style="display: none; position: absolute; justify-content: center;">
-        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-        <div>
-            An example success alert with an icon
-        </div>
-    </div>
-
-    <!-- Alerta de fracasso -->
-    <div class="alert alert-warning d-flex align-items-center" role="alert" style="display: none; position: absolute; justify-content: center;">
-        <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-        <div>
-            An example warning alert with an icon
-        </div>
-    </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="JS/index.global.min.js"></script>
     <script src="JS/bootstrap5/index.global.min.js"></script>
     <script src="JS/core/locales-all.global.min.js"></script>
     <script src="JS/calendar.js" type="module" defer></script>
-</body>
+    
 </html>
