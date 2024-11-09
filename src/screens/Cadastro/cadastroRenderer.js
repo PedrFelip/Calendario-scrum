@@ -10,11 +10,13 @@ document.getElementById('form-cadastro').addEventListener('submit', (event) => {
   // Bloqueia os campos temporariamente
   inputs.forEach(input => input.disabled = true);
 
+  // Envia os dados para o processo principal
   ipcRenderer.send('signup-attempt', {
     username: username.value,
     password: password.value
   });
 
+  // Resposta do processo principal
   ipcRenderer.once('signup-response', (event, response) => {
     inputs.forEach(input => input.disabled = false); // Reativa os campos
 
@@ -23,11 +25,17 @@ document.getElementById('form-cadastro').addEventListener('submit', (event) => {
       messageBox.textContent = 'Cadastro realizado com sucesso!';
       messageBox.className = 'success-message';
       setTimeout(() => {
-        window.location.href = '../Home/telaHome.html'; // Redireciona em caso de sucesso
+        window.location.href = '../Login/telaLogin.html'; // Redireciona para tela de login
       }, 1000);
     } else {
       messageBox.textContent = `Erro: ${response.message}`;
       messageBox.className = 'error-message';
     }
+  });
+
+  // Limpa os campos de input após erro ou sucesso
+  ipcRenderer.once('signup-response', () => {
+    username.value = '';
+    password.value = '';
   });
 });

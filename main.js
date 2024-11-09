@@ -41,8 +41,9 @@ app.on('window-all-closed', () => {
 ipcMain.on('signup-attempt', (event, { username, password }) => {
   console.log('Tentativa de cadastro recebida:', username);
   
-  const query = `SELECT username FROM users WHERE username = ?`;
-  db.get(query, [username], (err, row) => {
+  const queryCheckUser = `SELECT username FROM users WHERE username = ?`;
+
+  db.get(queryCheckUser, [username], (err, row) => {
     if (err) {
       console.error('Erro ao verificar usuário:', err);
       event.reply('signup-response', { success: false, message: 'Erro interno no sistema.' });
@@ -52,8 +53,8 @@ ipcMain.on('signup-attempt', (event, { username, password }) => {
     if (row) {
       event.reply('signup-response', { success: false, message: 'Usuário já existente.' });
     } else {
-      const insertQuery = `INSERT INTO users (username, password) VALUES (?, ?)`;
-      db.run(insertQuery, [username, password], function (err) {
+      const queryInsertUser = `INSERT INTO users (username, password) VALUES (?, ?)`;
+      db.run(queryInsertUser, [username, password], function (err) {
         if (err) {
           console.error('Erro ao cadastrar usuário:', err);
           event.reply('signup-response', { success: false, message: 'Erro ao cadastrar usuário.' });
@@ -65,23 +66,24 @@ ipcMain.on('signup-attempt', (event, { username, password }) => {
   });
 });
 
+
 // Lógica de Login
 ipcMain.on('login-attempt', (event, { username, password }) => {
   console.log('Tentativa de login recebida:', username);
   
-  const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
-  db.get(query, [username, password], (err, row) => {
+  const queryCheckUser = `SELECT id, username FROM users WHERE username = ? AND password = ?`;
+
+  db.get(queryCheckUser, [username, password], (err, row) => {
     if (err) {
-      console.error('Erro ao buscar usuário:', err);
+      console.error('Erro ao verificar credenciais:', err);
       event.reply('login-response', { success: false, message: 'Erro interno no sistema.' });
       return;
     }
 
     if (row) {
       console.log('Login bem-sucedido para:', username);
-      event.reply('login-response', { success: true });
+      event.reply('login-response', { success: true, user_id: row.id });
     } else {
-      console.log('Login falhou para:', username);
       event.reply('login-response', { success: false, message: 'Usuário ou senha inválidos.' });
     }
   });
