@@ -24,6 +24,10 @@ document.getElementById('form-login').addEventListener('submit', (event) => {
     if (response.success) {
       messageBox.textContent = 'Login realizado com sucesso!';
       messageBox.className = 'success-message';
+
+      // Armazena o user_id localmente
+      localStorage.setItem('user_id', response.user_id);
+
       setTimeout(() => {
         window.location.href = '../Home/telaHome.html'; // Redireciona em caso de sucesso
       }, 1000);
