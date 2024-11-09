@@ -35,14 +35,22 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 title: "Evento Teste",
                 start: "2024-11-12",
-                end: "2024-11-15"
+                end: "2024-11-15",
+                description: "Descrição teste para um evento teste"
             }
         ],
 
         eventClick: function(info){
+            // Instanciando o modelo na variável a seguir
             const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
 
-            visualizarModal.show();
+            visualizarModal.show(); // Mostrando o Modal
+
+            // Enviando informações para o Modal
+            document.getElementById("visualizarTitulo").innerText = info.event.title;
+            document.getElementById("visualizarInicio").innerText = info.event.start.toLocaleString();
+            document.getElementById("visualizarFim").innerText = info.event.end.toLocaleString();
+            document.getElementById("visualizarDescricao").innerText = info.event.description;
         }
 
     });
