@@ -1,5 +1,3 @@
-import api from "../../../constants/api";
-
 // Executa quando todo o arquivo HTMl for carregado
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -84,10 +82,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const minuto = String(dataObj.getMinutes()).padStart(2, "0");
 
         return `${ano}-${mes}-${dia} ${hora}:${minuto}`
-    }
+    };
 
     const formEvento = document.getElementById("formCadEvento");
-
+    
     if (formEvento) {
         formEvento.addEventListener("submit", async (e) => {
             e.preventDefault(); // Bloquear a atualização da página
@@ -112,11 +110,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // Obter o JSON da resposta
                 const data = await response.json();
-                console.log(data); // Manipule os dados da resposta aqui
+                console.log(data);
     
             } catch (error) {
                 console.error('Erro ao enviar o formulário:', error);
             }
         });
-    }
+    };
 });
