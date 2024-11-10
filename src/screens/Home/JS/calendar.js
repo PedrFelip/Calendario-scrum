@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         locale: 'pt-br',
+        height: "100vh",
         navLinks: true,
         selectable: true,
         editable: true,
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("cadastrarInicio").value = info.event.start.toISOString().slice(0, 16);
                 document.getElementById("cadastrarFim").value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
-                document.getElementById("cadastrarCor").value = info.event.backgroundColor;
+                document.getElementById("cadastrarCor").value = info.event.color;
 
                 // Salva o evento editado
                 document.getElementById("btnSaveEditEvento").onclick = function() {
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
                               info.event.setProp('title', updatedEvent.title);
                               info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
                               info.event.setExtendedProp('description', updatedEvent.description);
-                              info.event.setProp('backgroundColor', updatedEvent.color);
+                              info.event.setProp('color', updatedEvent.color);
                               visualizarModal.hide();
                           } else {
                               alert('Erro ao atualizar evento.');
@@ -120,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
                               title: newEvent.title,
                               start: newEvent.start_date,
                               end: newEvent.end_date,
-                              backgroundColor: newEvent.color,
-                              description: newEvent.description
+                              description: newEvent.description,
+                              color: newEvent.color,
                           });
                           cadastrarModal.hide();
                       } else {
@@ -140,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             title: event.title,
                             start: event.start_date,
                             end: event.end_date,
-                            backgroundColor: event.color,
+                            color: event.color,
                             description: event.description
                         })));
                     } else {
