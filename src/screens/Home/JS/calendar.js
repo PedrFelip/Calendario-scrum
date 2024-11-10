@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         start: event.start_date,
                         end: event.end_date,
                         description: event.description,
-                        color: "#FFD700"
+                        color: event.color || "#FFD700" // Cor padrão ou cor salva
                     })));
                 } else {
                     failureCallback();
@@ -52,20 +52,17 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById("visualizarFim").innerText = info.event.end ? info.event.end.toLocaleString() : info.event.start.toLocaleString();
             document.getElementById("visualizarDescricao").innerText = info.event.extendedProps.description;
 
+            // Exclusão de evento
             document.getElementById('deleteEventButton').onclick = async () => {
                 if (confirm('Deseja realmente excluir este evento?')) {
                     try {
                         const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
                             method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ user_id: userId })
                         });
 
-                        if (!response.ok) {
-                            throw new Error('Erro ao excluir evento.');
-                        }
+                        if (!response.ok) throw new Error('Erro ao excluir evento.');
 
                         info.event.remove();
                         visualizarModal.hide();
@@ -76,6 +73,35 @@ document.addEventListener('DOMContentLoaded', async function() {
                     }
                 }
             };
+
+            // Atualização de evento
+            document.getElementById("updateEventButton").onclick = async () => {
+                try {
+                    const updatedTitle = prompt("Atualize o título do evento:", info.event.title);
+                    if (!updatedTitle) return;
+
+                    const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            title: updatedTitle,
+                            start_date: info.event.start.toISOString(),
+                            end_date: info.event.end ? info.event.end.toISOString() : info.event.start.toISOString(),
+                            description: info.event.extendedProps.description,
+                            user_id: userId
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Erro ao atualizar evento.');
+
+                    info.event.setProp('title', updatedTitle);
+                    visualizarModal.hide();
+
+                } catch (error) {
+                    console.error('Erro ao atualizar evento:', error);
+                    alert('Erro ao atualizar evento: ' + error.message);
+                }
+            };
         },
 
         select: function(info) {
@@ -83,6 +109,52 @@ document.addEventListener('DOMContentLoaded', async function() {
             document.getElementById("cadastrarInicio").value = converterData(info.start);
             document.getElementById("cadastrarFim").value = converterData(info.end || info.start);
             cadastrarModal.show();
+        },
+
+        eventDrop: async function(info) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: info.event.title,
+                        start_date: info.event.start.toISOString(),
+                        end_date: info.event.end ? info.event.end.toISOString() : info.event.start.toISOString(),
+                        description: info.event.extendedProps.description,
+                        user_id: userId
+                    })
+                });
+
+                if (!response.ok) throw new Error('Erro ao mover evento.');
+
+            } catch (error) {
+                console.error('Erro ao mover evento:', error);
+                alert('Erro ao mover evento: ' + error.message);
+                info.revert();
+            }
+        },
+
+        eventResize: async function(info) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: info.event.title,
+                        start_date: info.event.start.toISOString(),
+                        end_date: info.event.end.toISOString(),
+                        description: info.event.extendedProps.description,
+                        user_id: userId
+                    })
+                });
+
+                if (!response.ok) throw new Error('Erro ao redimensionar evento.');
+
+            } catch (error) {
+                console.error('Erro ao redimensionar evento:', error);
+                alert('Erro ao redimensionar evento: ' + error.message);
+                info.revert();
+            }
         }
     });
 
@@ -126,7 +198,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                     title: dadosJSON.title,
                     start: dadosJSON.start_date,
                     end: dadosJSON.end_date,
-                    description: dadosJSON.description
+                    description: dadosJSON.description,
+                    color: dadosJSON.color
                 });
 
                 bootstrap.Modal.getInstance(document.getElementById("cadastrarModal")).hide();
