@@ -12,7 +12,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 // Criação de tabelas, se não existirem
-db.serialize(() => { // Aqui estava o erro
+db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,6 +28,7 @@ db.serialize(() => { // Aqui estava o erro
       start_date TEXT NOT NULL,
       end_date TEXT NOT NULL,
       description TEXT,
+      color TEXT DEFAULT '#FFD700',  -- Define uma cor padrão
       user_id INTEGER NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
