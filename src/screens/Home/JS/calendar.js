@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const userId = localStorage.getItem('user_id'); // Obtém o user_id do localStorage
 
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         locale: 'pt-br',
-        height: "100vh",
         navLinks: true,
         selectable: true,
         editable: true,
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById("visualizarFim").innerText = info.event.end ? info.event.end.toLocaleString() : 'N/A';
             document.getElementById("visualizarDescricao").innerText = info.event.extendedProps.description;
 
-            document.getElementById("btnDeleteEvento").onclick = function () {
+            document.getElementById("btnDeleteEvento").onclick = function() {
                 fetch(`http://localhost:3000/api/events/${info.event.id}`, {
                     method: 'DELETE',
                     headers: {
@@ -40,28 +39,26 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify({ user_id: userId })
                 }).then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            info.event.remove();
-                            visualizarModal.hide();
-                        } else {
-                            alert('Erro ao excluir evento.');
-                        }
-                    }).catch(err => console.error(err));
+                  .then(data => {
+                      if (data.success) {
+                          info.event.remove();
+                          visualizarModal.hide();
+                      } else {
+                          alert('Erro ao excluir evento.');
+                      }
+                  }).catch(err => console.error(err));
             };
 
-            document.getElementById("btnEditEvento").onclick = function () {
-                // Preenche o formulário de edição com os dados do evento
-                const editarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
-                editarModal.show();
-
+            document.getElementById("btnEditEvento").onclick = function() {
+                // Preenche o formulário com os dados do evento para edição
                 document.getElementById("cadastrarTitulo").value = info.event.title;
                 document.getElementById("cadastrarInicio").value = info.event.start.toISOString().slice(0, 16);
                 document.getElementById("cadastrarFim").value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
                 document.getElementById("cadastrarCor").value = info.event.backgroundColor;
 
-                document.getElementById("btnCadEvento").onclick = function () {
+                // Salva o evento editado
+                document.getElementById("btnSaveEditEvento").onclick = function() {
                     const updatedEvent = {
                         title: document.getElementById("cadastrarTitulo").value,
                         start_date: document.getElementById("cadastrarInicio").value,
@@ -78,29 +75,28 @@ document.addEventListener('DOMContentLoaded', function () {
                         },
                         body: JSON.stringify(updatedEvent)
                     }).then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                info.event.setProp('title', updatedEvent.title);
-                                info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
-                                info.event.setExtendedProp('description', updatedEvent.description);
-                                info.event.setProp('backgroundColor', updatedEvent.color);
-                                editarModal.hide();
-                            } else {
-                                alert('Erro ao atualizar evento.');
-                            }
-                        }).catch(err => console.error(err));
+                      .then(data => {
+                          if (data.success) {
+                              info.event.setProp('title', updatedEvent.title);
+                              info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
+                              info.event.setExtendedProp('description', updatedEvent.description);
+                              info.event.setProp('backgroundColor', updatedEvent.color);
+                              visualizarModal.hide();
+                          } else {
+                              alert('Erro ao atualizar evento.');
+                          }
+                      }).catch(err => console.error(err));
                 };
             };
         },
-
-        select: function (info) {
+        select: function(info) {
             const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
             cadastrarModal.show();
 
             document.getElementById("cadastrarInicio").value = info.startStr;
             document.getElementById("cadastrarFim").value = info.endStr;
 
-            document.getElementById("btnCadEvento").onclick = function () {
+            document.getElementById("btnCadEvento").onclick = function() {
                 const newEvent = {
                     title: document.getElementById("cadastrarTitulo").value,
                     start_date: document.getElementById("cadastrarInicio").value,
@@ -117,25 +113,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(newEvent)
                 }).then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            calendar.addEvent({
-                                id: data.id,
-                                title: newEvent.title,
-                                start: newEvent.start_date,
-                                end: newEvent.end_date,
-                                backgroundColor: newEvent.color,
-                                description: newEvent.description
-                            });
-                            cadastrarModal.hide();
-                        } else {
-                            alert('Erro ao criar evento.');
-                        }
-                    }).catch(err => console.error(err));
+                  .then(data => {
+                      if (data.success) {
+                          calendar.addEvent({
+                              id: data.id,
+                              title: newEvent.title,
+                              start: newEvent.start_date,
+                              end: newEvent.end_date,
+                              backgroundColor: newEvent.color,
+                              description: newEvent.description
+                          });
+                          cadastrarModal.hide();
+                      } else {
+                          alert('Erro ao criar evento.');
+                      }
+                  }).catch(err => console.error(err));
             };
         },
-
-        events: function (fetchInfo, successCallback, failureCallback) {
+        events: function(fetchInfo, successCallback, failureCallback) {
             fetch(`http://localhost:3000/api/events/${userId}`)
                 .then(response => response.json())
                 .then(data => {
