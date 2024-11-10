@@ -32,6 +32,10 @@
 
   </head>
 <body class="d-flex h-100 text-center text-white">
+
+    <div class="overlay">
+        <h1>Bem-vindo ao PLAN IT</h1>
+    </div>
     
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
@@ -66,10 +70,26 @@
             'url(images/wallpaper02.jpg)',
             'url(images/wallpaper03.jpg)'
         ];
+        const overlay = document.querySelector('.overlay');
+        const coverContainer = document.querySelector('.cover-container');
 
         const fundoAleatorio = fundos[Math.floor(Math.random() * fundos.length)];
 
         document.body.style.backgroundImage = fundoAleatorio;
+
+        setTimeout(() => {
+            overlay.classList.add('show-text');
+        }, 1500);
+
+        setTimeout(()=> {
+            overlay.classList.remove('show-text')
+        }, 3000);
+
+        
+
+        setTimeout(()=> {
+            coverContainer.classList.add('show-text')
+        }, 3000)
     </script>
 </body>
 </html>
