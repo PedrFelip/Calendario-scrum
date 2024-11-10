@@ -31,7 +31,7 @@
     </style>
 
   </head>
-<body class="d-flex h-100 text-center text-white bg-dark">
+<body class="d-flex h-100 text-center text-white">
     
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
@@ -56,9 +56,20 @@
         </main>
 
         <footer class="mt-auto text-white-50">
-            <p>PLAN IT feito por <a href="https://getbootstrap.com/" class="text-white">DreamTeam</a>, da empresa de <a href="https://wa.me/+5561992767724?text=Tenho%20interesse%20em%20criar%20o%20meu%20aplicativo%20web%20com%20você%20e%20sua%20equipe" class="text-white">Thiago</a>.</p>
+            <p>PLAN IT feito por DreamTeam, empresa de <a href="https://wa.me/+5561992767724?text=Tenho%20interesse%20em%20criar%20o%20meu%20aplicativo%20web%20com%20você%20e%20sua%20equipe" class="text-white">Thiago Miranda</a>.</p>
         </footer>
     </div>
- 
+
+    <script>
+        const fundos = [
+            'url(images/wallpaper01.jpg)',
+            'url(images/wallpaper02.jpg)',
+            'url(images/wallpaper03.jpg)'
+        ];
+
+        const fundoAleatorio = fundos[Math.floor(Math.random() * fundos.length)];
+
+        document.body.style.backgroundImage = fundoAleatorio;
+    </script>
 </body>
 </html>
