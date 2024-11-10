@@ -54,9 +54,15 @@
             <p class="lead">
                 O PLAN IT foi concebido para ser uma solução intuitiva, eficiente e simples de usar, auxiliando os usuários a manterem suas rotinas organizadas de maneira prática.
             </p>
-            <p class="lead">
-                
-            </p>
+            <div id="buttons">
+                <a class="btn btn-lg btn-outline-light fw-bold border-white" onclick="window.location.href='../Login/telaLogin.html'">
+                    Login
+                </a>
+                <span id="margem" style="margin: 0px 20px;"></span>
+                <a class="btn btn-lg btn-outline-light fw-bold border-white" onclick="window.location.href='../Cadastro/telaDeCadastro.html'">
+                    Cadastro
+                </a>
+            </div>
         </main>
 
         <footer class="mt-auto text-white-50">
@@ -84,8 +90,6 @@
         setTimeout(()=> {
             overlay.classList.remove('show-text')
         }, 3000);
-
-        
 
         setTimeout(()=> {
             coverContainer.classList.add('show-text')
