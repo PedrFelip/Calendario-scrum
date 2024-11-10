@@ -1,7 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
-// Define o caminho do banco de dados no diretório atual
 const dbPath = path.join(__dirname, '../../calendario.db');
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {
@@ -11,7 +10,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
   }
 });
 
-// Criação de tabelas, se não existirem
+// Criação ou atualização de tabelas
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -28,7 +27,7 @@ db.serialize(() => {
       start_date TEXT NOT NULL,
       end_date TEXT NOT NULL,
       description TEXT,
-      color TEXT DEFAULT '#FFD700',  -- Define uma cor padrão
+      color TEXT,
       user_id INTEGER NOT NULL,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
