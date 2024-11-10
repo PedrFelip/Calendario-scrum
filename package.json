@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/PedrFelip/Calendario-scrum#readme",
   "devDependencies": {
-    "electron": "^33.2.0"
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
     "@fullcalendar/bootstrap5": "^6.1.15",
