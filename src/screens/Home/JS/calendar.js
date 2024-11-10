@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         locale: 'pt-br',
+        height: "100vh",
         navLinks: true,
         selectable: true,
         selectMirror: true,
