@@ -6,7 +6,7 @@ api.use(express.json()); // Middleware para interpretar JSON
 
 // Rota para criar um evento
 api.post('/api/events', (req, res) => {
-  const { title, start_date, end_date, description, user_id } = req.body;
+  const { title, start_date, end_date, description, color, user_id } = req.body;
 
   if (!user_id) {
     return res.status(400).json({ success: false, message: 'ID do usuário é obrigatório.' });
@@ -17,11 +17,11 @@ api.post('/api/events', (req, res) => {
   }
 
   const query = `
-    INSERT INTO events (title, start_date, end_date, description, user_id) 
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO events (title, start_date, end_date, description, color, user_id) 
+    VALUES (?, ?, ?, ?, ?, ?)
   `;
 
-  db.run(query, [title, start_date, end_date, description, user_id], function (err) {
+  db.run(query, [title, start_date, end_date, description, color || '#FFD700', user_id], function (err) {
     if (err) {
       console.error('Erro ao criar evento:', err);
       return res.status(500).json({ success: false, message: 'Erro ao criar evento.' });
@@ -47,7 +47,7 @@ api.get('/api/events/:user_id', (req, res) => {
 // Rota para atualizar um evento
 api.put('/api/events/:id', (req, res) => {
   const { id } = req.params;
-  const { title, start_date, end_date, description, user_id } = req.body;
+  const { title, start_date, end_date, description, color, user_id } = req.body;
 
   if (!user_id) {
     return res.status(400).json({ success: false, message: 'ID do usuário é obrigatório.' });
@@ -59,11 +59,11 @@ api.put('/api/events/:id', (req, res) => {
 
   const query = `
     UPDATE events 
-    SET title = ?, start_date = ?, end_date = ?, description = ? 
+    SET title = ?, start_date = ?, end_date = ?, description = ?, color = ?
     WHERE id = ? AND user_id = ?
   `;
 
-  db.run(query, [title, start_date, end_date, description, id, user_id], function (err) {
+  db.run(query, [title, start_date, end_date, description, color || '#FFD700', id, user_id], function (err) {
     if (err) {
       console.error('Erro ao atualizar evento:', err);
       return res.status(500).json({ success: false, message: 'Erro ao atualizar evento.' });
