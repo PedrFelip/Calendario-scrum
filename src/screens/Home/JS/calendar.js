@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         selectMirror: true,
         editable: true,
         dayMaxEvents: true,
+        fixedWeekCount: false,
 
         events: async function(fetchInfo, successCallback, failureCallback) {
             try {
