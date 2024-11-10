@@ -40,13 +40,14 @@
                     </dl>
                 </div>
                 <div class="modal-footer">
-                    <button id="deleteEventButton" class="btn btn-danger">Excluir Evento</button>
-                </div>
+                    <button type="button" id="btnEditEvento" class="btn btn-primary">Editar</button>
+                    <button type="button" id="btnDeleteEvento" class="btn btn-danger">Excluir</button>
+                </div>                
             </div>
         </div>
     </div>
 
-    <!-- Modal para Cadastrar Novos Eventos -->
+    <!-- Modal para Cadastrar ou Editar Eventos -->
     <div class="modal fade" id="cadastrarModal" tabindex="-1" aria-labelledby="cadastrarModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -99,6 +100,7 @@
                         </div>
 
                         <button type="submit" id="btnCadEvento" class="btn btn-success">Cadastrar</button>
+                        <button type="button" id="btnSaveEditEvento" class="btn btn-primary" style="display: none;">Salvar Alterações</button>
                     </form>
                 </div>
             </div>
@@ -110,5 +112,5 @@
     <script src="JS/bootstrap5/index.global.min.js"></script>
     <script src="JS/core/locales-all.global.min.js"></script>
     <script src="JS/calendar.js" type="module" defer></script>
-    
+</body>
 </html>

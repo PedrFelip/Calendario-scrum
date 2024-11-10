@@ -1,12 +1,13 @@
-document.addEventListener('DOMContentLoaded', async function() {
-    const userId = localStorage.getItem("user_id");
+document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const userId = localStorage.getItem('user_id'); // Obtém o user_id do localStorage
 
     if (!userId) {
-        alert("Você precisa estar logado para acessar o calendário.");
+        console.error('ID do usuário não encontrado. Redirecionando para login...');
+        window.location.href = '../Login/telaLogin.html';
         return;
     }
 
-    const calendarEl = document.getElementById('calendar');
     const calendar = new FullCalendar.Calendar(calendarEl, {
         themeSystem: 'bootstrap5',
         headerToolbar: {
@@ -17,199 +18,138 @@ document.addEventListener('DOMContentLoaded', async function() {
         locale: 'pt-br',
         navLinks: true,
         selectable: true,
-        selectMirror: true,
         editable: true,
-        dayMaxEvents: true,
-        fixedWeekCount: false,
-
-        events: async function(fetchInfo, successCallback, failureCallback) {
-            try {
-                const response = await fetch(`http://localhost:3000/api/events/${userId}`);
-                const data = await response.json();
-
-                if (data.success) {
-                    successCallback(data.events.map(event => ({
-                        id: event.id,
-                        title: event.title,
-                        start: event.start_date,
-                        end: event.end_date,
-                        description: event.description,
-                        color: event.color || "#FFD700" // Cor padrão ou cor salva
-                    })));
-                } else {
-                    failureCallback();
-                }
-            } catch (error) {
-                console.error('Erro ao carregar eventos:', error);
-                failureCallback(error);
-            }
-        },
-
         eventClick: function(info) {
+            // Mostra o modal de visualização com os detalhes do evento
             const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
             visualizarModal.show();
+
             document.getElementById("visualizarTitulo").innerText = info.event.title;
             document.getElementById("visualizarInicio").innerText = info.event.start.toLocaleString();
-            document.getElementById("visualizarFim").innerText = info.event.end ? info.event.end.toLocaleString() : info.event.start.toLocaleString();
+            document.getElementById("visualizarFim").innerText = info.event.end ? info.event.end.toLocaleString() : 'N/A';
             document.getElementById("visualizarDescricao").innerText = info.event.extendedProps.description;
 
-            // Exclusão de evento
-            document.getElementById('deleteEventButton').onclick = async () => {
-                if (confirm('Deseja realmente excluir este evento?')) {
-                    try {
-                        const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
-                            method: 'DELETE',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ user_id: userId })
-                        });
-
-                        if (!response.ok) throw new Error('Erro ao excluir evento.');
-
-                        info.event.remove();
-                        visualizarModal.hide();
-
-                    } catch (error) {
-                        console.error('Erro ao excluir evento:', error);
-                        alert('Erro ao excluir evento: ' + error.message);
-                    }
-                }
+            document.getElementById("btnDeleteEvento").onclick = function() {
+                fetch(`http://localhost:3000/api/events/${info.event.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          info.event.remove();
+                          visualizarModal.hide();
+                      } else {
+                          alert('Erro ao excluir evento.');
+                      }
+                  }).catch(err => console.error(err));
             };
 
-            // Atualização de evento
-            document.getElementById("updateEventButton").onclick = async () => {
-                try {
-                    const updatedTitle = prompt("Atualize o título do evento:", info.event.title);
-                    if (!updatedTitle) return;
+            document.getElementById("btnEditEvento").onclick = function() {
+                // Preenche o formulário com os dados do evento para edição
+                document.getElementById("cadastrarTitulo").value = info.event.title;
+                document.getElementById("cadastrarInicio").value = info.event.start.toISOString().slice(0, 16);
+                document.getElementById("cadastrarFim").value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
+                document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
+                document.getElementById("cadastrarCor").value = info.event.backgroundColor;
 
-                    const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
+                // Salva o evento editado
+                document.getElementById("btnSaveEditEvento").onclick = function() {
+                    const updatedEvent = {
+                        title: document.getElementById("cadastrarTitulo").value,
+                        start_date: document.getElementById("cadastrarInicio").value,
+                        end_date: document.getElementById("cadastrarFim").value,
+                        description: document.getElementById("cadastrarDescricao").value,
+                        color: document.getElementById("cadastrarCor").value,
+                        user_id: userId
+                    };
+
+                    fetch(`http://localhost:3000/api/events/${info.event.id}`, {
                         method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            title: updatedTitle,
-                            start_date: info.event.start.toISOString(),
-                            end_date: info.event.end ? info.event.end.toISOString() : info.event.start.toISOString(),
-                            description: info.event.extendedProps.description,
-                            user_id: userId
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('Erro ao atualizar evento.');
-
-                    info.event.setProp('title', updatedTitle);
-                    visualizarModal.hide();
-
-                } catch (error) {
-                    console.error('Erro ao atualizar evento:', error);
-                    alert('Erro ao atualizar evento: ' + error.message);
-                }
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updatedEvent)
+                    }).then(response => response.json())
+                      .then(data => {
+                          if (data.success) {
+                              info.event.setProp('title', updatedEvent.title);
+                              info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
+                              info.event.setExtendedProp('description', updatedEvent.description);
+                              info.event.setProp('backgroundColor', updatedEvent.color);
+                              visualizarModal.hide();
+                          } else {
+                              alert('Erro ao atualizar evento.');
+                          }
+                      }).catch(err => console.error(err));
+                };
             };
         },
-
         select: function(info) {
             const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
-            document.getElementById("cadastrarInicio").value = converterData(info.start);
-            document.getElementById("cadastrarFim").value = converterData(info.end || info.start);
             cadastrarModal.show();
+
+            document.getElementById("cadastrarInicio").value = info.startStr;
+            document.getElementById("cadastrarFim").value = info.endStr;
+
+            document.getElementById("btnCadEvento").onclick = function() {
+                const newEvent = {
+                    title: document.getElementById("cadastrarTitulo").value,
+                    start_date: document.getElementById("cadastrarInicio").value,
+                    end_date: document.getElementById("cadastrarFim").value,
+                    description: document.getElementById("cadastrarDescricao").value,
+                    color: document.getElementById("cadastrarCor").value,
+                    user_id: userId
+                };
+
+                fetch('http://localhost:3000/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newEvent)
+                }).then(response => response.json())
+                  .then(data => {
+                      if (data.success) {
+                          calendar.addEvent({
+                              id: data.id,
+                              title: newEvent.title,
+                              start: newEvent.start_date,
+                              end: newEvent.end_date,
+                              backgroundColor: newEvent.color,
+                              description: newEvent.description
+                          });
+                          cadastrarModal.hide();
+                      } else {
+                          alert('Erro ao criar evento.');
+                      }
+                  }).catch(err => console.error(err));
+            };
         },
-
-        eventDrop: async function(info) {
-            try {
-                const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: info.event.title,
-                        start_date: info.event.start.toISOString(),
-                        end_date: info.event.end ? info.event.end.toISOString() : info.event.start.toISOString(),
-                        description: info.event.extendedProps.description,
-                        user_id: userId
-                    })
+        events: function(fetchInfo, successCallback, failureCallback) {
+            fetch(`http://localhost:3000/api/events/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        successCallback(data.events.map(event => ({
+                            id: event.id,
+                            title: event.title,
+                            start: event.start_date,
+                            end: event.end_date,
+                            backgroundColor: event.color,
+                            description: event.description
+                        })));
+                    } else {
+                        failureCallback();
+                    }
+                }).catch(err => {
+                    console.error('Erro ao carregar eventos:', err);
+                    failureCallback();
                 });
-
-                if (!response.ok) throw new Error('Erro ao mover evento.');
-
-            } catch (error) {
-                console.error('Erro ao mover evento:', error);
-                alert('Erro ao mover evento: ' + error.message);
-                info.revert();
-            }
-        },
-
-        eventResize: async function(info) {
-            try {
-                const response = await fetch(`http://localhost:3000/api/events/${info.event.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        title: info.event.title,
-                        start_date: info.event.start.toISOString(),
-                        end_date: info.event.end.toISOString(),
-                        description: info.event.extendedProps.description,
-                        user_id: userId
-                    })
-                });
-
-                if (!response.ok) throw new Error('Erro ao redimensionar evento.');
-
-            } catch (error) {
-                console.error('Erro ao redimensionar evento:', error);
-                alert('Erro ao redimensionar evento: ' + error.message);
-                info.revert();
-            }
         }
     });
 
     calendar.render();
-
-    function converterData(data) {
-        const dataObj = new Date(data);
-        const ano = dataObj.getFullYear();
-        const mes = String(dataObj.getMonth() + 1).padStart(2, "0");
-        const dia = String(dataObj.getDate()).padStart(2, "0");
-        const hora = String(dataObj.getHours()).padStart(2, "0");
-        const minuto = String(dataObj.getMinutes()).padStart(2, "0");
-        return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
-    }
-
-    const formEvento = document.getElementById("formCadEvento");
-
-    if (formEvento) {
-        formEvento.addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const dadosForm = new FormData(formEvento);
-            const dadosJSON = Object.fromEntries(dadosForm.entries());
-            dadosJSON.user_id = userId;
-
-            try {
-                const response = await fetch("http://localhost:3000/api/events", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dadosJSON)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Erro ao criar evento.');
-                }
-
-                const data = await response.json();
-                calendar.addEvent({
-                    id: data.id,
-                    title: dadosJSON.title,
-                    start: dadosJSON.start_date,
-                    end: dadosJSON.end_date,
-                    description: dadosJSON.description,
-                    color: dadosJSON.color
-                });
-
-                bootstrap.Modal.getInstance(document.getElementById("cadastrarModal")).hide();
-                formEvento.reset();
-
-            } catch (error) {
-                console.error('Erro ao cadastrar evento:', error);
-                alert('Erro ao cadastrar evento: ' + error.message);
-            }
-        });
-    }
 });
