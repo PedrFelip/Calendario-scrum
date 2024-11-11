@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         locale: 'pt-br',
-        height: "100vh",
         navLinks: true,
         selectable: true,
         editable: true,
@@ -30,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function() {
             omitZeroMinute: false
         },
 
-        eventClick: function (info) {
+        eventClick: function(info) {
             const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
             visualizarModal.show();
 
             document.getElementById("visualizarTitulo").innerText = info.event.title;
-            document.getElementById("visualizarInicio").innerText = info.event.start.toLocaleString();
-            document.getElementById("visualizarFim").innerText = info.event.end ? info.event.end.toLocaleString() : 'N/A';
+            document.getElementById("visualizarInicio").innerText = formatDatetimeDisplay(info.event.start);
+            document.getElementById("visualizarFim").innerText = info.event.end ? formatDatetimeDisplay(info.event.end) : 'N/A';
             document.getElementById("visualizarDescricao").innerText = info.event.extendedProps.description;
 
             document.getElementById("btnDeleteEvento").onclick = function() {
@@ -58,14 +57,12 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             document.getElementById("btnEditEvento").onclick = function() {
-                // Preenche o formulário com os dados do evento para edição
                 document.getElementById("cadastrarTitulo").value = info.event.title;
-                document.getElementById("cadastrarInicio").value = info.event.start.toISOString().slice(0, 16);
-                document.getElementById("cadastrarFim").value = info.event.end ? info.event.end.toISOString().slice(0, 16) : '';
+                document.getElementById("cadastrarInicio").value = converterData(info.event.start);
+                document.getElementById("cadastrarFim").value = info.event.end ? converterData(info.event.end) : '';
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
                 document.getElementById("cadastrarCor").value = info.event.color;
 
-                // Salva o evento editado
                 document.getElementById("btnSaveEditEvento").onclick = function() {
                     const updatedEvent = {
                         title: document.getElementById("cadastrarTitulo").value,
@@ -101,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
             cadastrarModal.show();
 
-            document.getElementById("cadastrarInicio").value = info.startStr;
-            document.getElementById("cadastrarFim").value = info.endStr;
+            document.getElementById("cadastrarInicio").value = converterData(info.start);
+            document.getElementById("cadastrarFim").value = converterData(info.end || info.start);
 
             document.getElementById("btnCadEvento").onclick = function() {
                 const newEvent = {
@@ -128,8 +125,8 @@ document.addEventListener('DOMContentLoaded', function() {
                               title: newEvent.title,
                               start: newEvent.start_date,
                               end: newEvent.end_date,
-                              description: newEvent.description,
                               color: newEvent.color,
+                              description: newEvent.description
                           });
                           cadastrarModal.hide();
                       } else {
@@ -161,5 +158,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function converterData(data) {
+        const dataObj = new Date(data);
+        const ano = dataObj.getFullYear();
+        const mes = String(dataObj.getMonth() + 1).padStart(2, "0");
+        const dia = String(dataObj.getDate()).padStart(2, "0");
+        const hora = String(dataObj.getHours()).padStart(2, "0");
+        const minuto = String(dataObj.getMinutes()).padStart(2, "0");
+        return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
+    }
     calendar.render();
+
 });
