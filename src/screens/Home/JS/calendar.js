@@ -23,6 +23,13 @@ document.addEventListener('DOMContentLoaded', function() {
         dayMaxEvents: true,
         fixedWeekCount: false,
 
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            meridiem: false,
+            omitZeroMinute: false
+        },
+
         eventClick: function (info) {
             const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
             visualizarModal.show();
