@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         locale: 'pt-br',
+        height: "100vh",
         navLinks: true,
         selectable: true,
         editable: true,
