@@ -1,18 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 :root {
     --accent-color: #8672FF;
+    --accentdark-color: #4c408f;
     --base-color: white;
     --text-color: #2E2B41;
     --input-color: #F3F0FF;
 }
 
+* {
+    font-family: "Inter";
+}
+
 body {
     margin: 40px, 10px;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
 }
 
 #calendar {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
+}
+
+#fc-dom-1 { /*Título do Header (MES de ANO)*/
+    font-size: 2.7em;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.btn.btn-primary { /*Customizei a cor do botão primary para roxo*/
+    background-color: var(--accent-color);
+    border: #F3F0FF;
+}
+
+.btn.btn-primary:hover{ /*Botão onde o mouse está encima*/
+    background-color: var(--accentdark-color);
+}
+
+.fc-dayGridMonth-button.btn.btn-primary.active { /*Botão active do grupo direito do header*/
+    background-color: var(--accentdark-color);
 }
