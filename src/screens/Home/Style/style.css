@@ -30,7 +30,8 @@ body {
 }
 
 #fc-dom-1 { /*Título do Header (MES de ANO)*/
-    font-size: 2.7em;
+    display: inline-block;
+    font-size: 3em;
     font-weight: 600;
     text-transform: capitalize;
 }
