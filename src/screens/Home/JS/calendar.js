@@ -60,11 +60,20 @@ document.addEventListener('DOMContentLoaded', function() {
             };
 
             document.getElementById("btnEditEvento").onclick = function() {
+                const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
+                cadastrarModal.show();
+                visualizarModal.hide();
+
                 document.getElementById("cadastrarTitulo").value = info.event.title;
                 document.getElementById("cadastrarInicio").value = converterData(info.event.start);
                 document.getElementById("cadastrarFim").value = info.event.end ? converterData(info.event.end) : '';
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
-                document.getElementById("cadastrarCor").value = info.event.color;
+                document.getElementById("cadastrarCor").value = info.event.backgroundColor;
+
+                document.getElementById("btnCadEvento").style.display = "none";
+                document.getElementById("btnSaveEditEvento").style.display = "inline-block";
+
+                document.getElementById("btnSaveEditEvento").onclick = null;
 
                 document.getElementById("btnSaveEditEvento").onclick = function() {
                     const updatedEvent = {
@@ -86,11 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
                       .then(data => {
                           if(data.success) {
                                 info.event.setProp('title', updatedEvent.title);
-                                info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
+                                info.event.setStart(updatedEvent.start_date);
+                                info.event.setEnd(updatedEvent.end_date);
                                 info.event.setExtendedProp('description', updatedEvent.description);
-                                info.event.setProp('color', updatedEvent.color);
-                                visualizarModal.hide();
-                          }else {
+                                info.event.setProp('backgroundColor', updatedEvent.color);
+                                cadastrarModal.hide();
+                                document.getElementById("formCadEvento").reset();
+                          } else {
                                 alert('Erro ao atualizar evento.');
                           }
                       }).catch(err => console.error(err));
@@ -101,42 +112,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
             cadastrarModal.show();
 
+            // Limpa o formulário antes de usá-lo
+            document.getElementById("formCadEvento").reset();
+
+            // Mostra o botão de cadastrar e esconde o botão de salvar alterações
+            document.getElementById("btnCadEvento").style.display = "inline-block";
+            document.getElementById("btnSaveEditEvento").style.display = "none";
+
             document.getElementById("cadastrarInicio").value = converterData(info.start);
             document.getElementById("cadastrarFim").value = converterData(info.end || info.start);
-
-            document.getElementById("btnCadEvento").onclick = function() {
-                const newEvent = {
-                    title: document.getElementById("cadastrarTitulo").value,
-                    start_date: document.getElementById("cadastrarInicio").value,
-                    end_date: document.getElementById("cadastrarFim").value,
-                    description: document.getElementById("cadastrarDescricao").value,
-                    color: document.getElementById("cadastrarCor").value,
-                    user_id: userId
-                };
-
-                fetch('http://localhost:3000/api/events', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(newEvent)
-                }).then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          calendar.addEvent({
-                              id: data.id,
-                              title: newEvent.title,
-                              start: newEvent.start_date,
-                              end: newEvent.end_date,
-                              color: newEvent.color,
-                              description: newEvent.description
-                          });
-                          cadastrarModal.hide();
-                      } else {
-                          alert('Erro ao criar evento.');
-                      }
-                  }).catch(err => console.error(err));
-            };
         },
         events: function(fetchInfo, successCallback, failureCallback) {
             fetch(`http://localhost:3000/api/events/${userId}`)
@@ -148,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             title: event.title,
                             start: event.start_date,
                             end: event.end_date,
-                            color: event.color,
+                            backgroundColor: event.color,
                             description: event.description
                         })));
                     } else {
@@ -161,6 +145,54 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Defina o manipulador de evento uma vez, fora da função select
+    document.getElementById("btnCadEvento").addEventListener('click', function() {
+        const newEvent = {
+            title: document.getElementById("cadastrarTitulo").value,
+            start_date: document.getElementById("cadastrarInicio").value,
+            end_date: document.getElementById("cadastrarFim").value,
+            description: document.getElementById("cadastrarDescricao").value,
+            color: document.getElementById("cadastrarCor").value,
+            user_id: userId
+        };
+
+        fetch('http://localhost:3000/api/events', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newEvent)
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  calendar.addEvent({
+                      id: data.id,
+                      title: newEvent.title,
+                      start: newEvent.start_date,
+                      end: newEvent.end_date,
+                      backgroundColor: newEvent.color,
+                      description: newEvent.description
+                  });
+                  const cadastrarModal = bootstrap.Modal.getInstance(document.getElementById("cadastrarModal"));
+                  cadastrarModal.hide();
+                  document.getElementById("formCadEvento").reset();
+              } else {
+                  alert('Erro ao criar evento: ' + data.message);
+                  document.getElementById("formCadEvento").reset();
+              }
+          }).catch(err => {
+              console.error(err);
+              alert('Erro ao criar evento.');
+              document.getElementById("formCadEvento").reset();
+          });
+    });
+
+    // Adicione o listener para resetar o formulário ao fechar o modal
+    const cadastrarModalElement = document.getElementById('cadastrarModal');
+    cadastrarModalElement.addEventListener('hidden.bs.modal', function () {
+        document.getElementById("formCadEvento").reset();
+    });
+
     function converterData(data) {
         const dataObj = new Date(data);
         const ano = dataObj.getFullYear();
@@ -170,6 +202,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const minuto = String(dataObj.getMinutes()).padStart(2, "0");
         return `${ano}-${mes}-${dia}T${hora}:${minuto}`;
     }
+
+    function formatDatetimeDisplay(data) {
+        const dataObj = new Date(data);
+        return dataObj.toLocaleString('pt-BR', {
+            dateStyle: 'short',
+            timeStyle: 'short',
+            hour12: false
+        });
+    }
+
     calendar.render();
 
 });
