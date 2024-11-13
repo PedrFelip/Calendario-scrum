@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Cadastro</title>
     <link rel="stylesheet" href="styleCadastro.css">
     <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
     <link rel="shortcut icon" href="../../imagens/FaviconLogo1.jpg" type="image/x-icon">
-    <title>Tela de Cadastro</title>
 </head>
 <body>
     <div id="areaCadastro">
@@ -16,6 +16,18 @@
             <label for="nomeUsuario">
                 <i class='bx bx-user'></i>
                 <input required type="text" name="nomeUsuario" id="nomeUsuario" placeholder="Nome de Usuário">
+            </label>
+
+            <!-- Campo Email -->
+            <label for="email">
+                <i class='bx bx-envelope'></i>
+                <input required type="email" name="email" id="email" placeholder="Email">
+            </label>
+
+            <!-- Campo Data de Nascimento -->
+            <label for="dataNascimento">
+                <i class='bx bx-calendar'></i>
+                <input required type="date" name="dataNascimento" id="dataNascimento">
             </label>
 
             <label for="password">
