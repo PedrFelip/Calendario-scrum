@@ -6,3 +6,4 @@ dist/
 calendario.db
 /dist/
 /temp/
+*.zip
