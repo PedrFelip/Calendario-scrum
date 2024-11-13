@@ -68,7 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("cadastrarInicio").value = converterData(info.event.start);
                 document.getElementById("cadastrarFim").value = info.event.end ? converterData(info.event.end) : '';
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
-                document.getElementById("cadastrarCor").value = info.event.backgroundColor;
+                document.getElementById("cadastrarCor").value = info.event.color;
+
+                // Altera o título do modal
+                document.getElementById("cadastrarModalLabel").innerText = "Editar Evento";
 
                 document.getElementById("btnCadEvento").style.display = "none";
                 document.getElementById("btnSaveEditEvento").style.display = "inline-block";
@@ -98,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 info.event.setStart(updatedEvent.start_date);
                                 info.event.setEnd(updatedEvent.end_date);
                                 info.event.setExtendedProp('description', updatedEvent.description);
-                                info.event.setProp('backgroundColor', updatedEvent.color);
+                                info.event.setProp('color', updatedEvent.color);
                                 cadastrarModal.hide();
                                 document.getElementById("formCadEvento").reset();
                           } else {
@@ -114,6 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Limpa o formulário antes de usá-lo
             document.getElementById("formCadEvento").reset();
+
+            // Altera o título do modal
+            document.getElementById("cadastrarModalLabel").innerText = "Cadastrar Evento";
 
             // Mostra o botão de cadastrar e esconde o botão de salvar alterações
             document.getElementById("btnCadEvento").style.display = "inline-block";
@@ -132,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             title: event.title,
                             start: event.start_date,
                             end: event.end_date,
-                            backgroundColor: event.color,
+                            color: event.color,
                             description: event.description
                         })));
                     } else {
@@ -145,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Defina o manipulador de evento uma vez, fora da função select
+    // Define o manipulador de evento uma vez, fora da função select
     document.getElementById("btnCadEvento").addEventListener('click', function() {
         const newEvent = {
             title: document.getElementById("cadastrarTitulo").value,
@@ -170,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                       title: newEvent.title,
                       start: newEvent.start_date,
                       end: newEvent.end_date,
-                      backgroundColor: newEvent.color,
+                      color: newEvent.color,
                       description: newEvent.description
                   });
                   const cadastrarModal = bootstrap.Modal.getInstance(document.getElementById("cadastrarModal"));
