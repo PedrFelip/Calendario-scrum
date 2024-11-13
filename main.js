@@ -38,12 +38,12 @@ app.on('window-all-closed', () => {
 // Rotas de IPC para lógica interna
 
 // Lógica de Cadastro
-ipcMain.on('signup-attempt', (event, { username, password }) => {
+ipcMain.on('signup-attempt', (event, { username, email, birthdate, password }) => {
   console.log('Tentativa de cadastro recebida:', username);
-  
-  const queryCheckUser = `SELECT username FROM users WHERE username = ?`;
 
-  db.get(queryCheckUser, [username], (err, row) => {
+  const queryCheckUser = `SELECT username FROM users WHERE username = ? OR email = ?`;
+
+  db.get(queryCheckUser, [username, email], (err, row) => {
     if (err) {
       console.error('Erro ao verificar usuário:', err);
       event.reply('signup-response', { success: false, message: 'Erro interno no sistema.' });
@@ -51,10 +51,10 @@ ipcMain.on('signup-attempt', (event, { username, password }) => {
     }
 
     if (row) {
-      event.reply('signup-response', { success: false, message: 'Usuário já existente.' });
+      event.reply('signup-response', { success: false, message: 'Usuário ou email já existente.' });
     } else {
-      const queryInsertUser = `INSERT INTO users (username, password) VALUES (?, ?)`;
-      db.run(queryInsertUser, [username, password], function (err) {
+      const queryInsertUser = `INSERT INTO users (username, email, birthdate, password) VALUES (?, ?, ?, ?)`;
+      db.run(queryInsertUser, [username, email, birthdate, password], function (err) {
         if (err) {
           console.error('Erro ao cadastrar usuário:', err);
           event.reply('signup-response', { success: false, message: 'Erro ao cadastrar usuário.' });
@@ -65,7 +65,6 @@ ipcMain.on('signup-attempt', (event, { username, password }) => {
     }
   });
 });
-
 
 // Lógica de Login
 ipcMain.on('login-attempt', (event, { username, password }) => {
