@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
             omitZeroMinute: false
         },
 
+        nowIndicator: true,
+
         eventClick: function(info) {
             const visualizarModal = new bootstrap.Modal(document.getElementById("visualizarModal"));
             visualizarModal.show();
@@ -82,14 +84,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         body: JSON.stringify(updatedEvent)
                     }).then(response => response.json())
                       .then(data => {
-                          if (data.success) {
-                              info.event.setProp('title', updatedEvent.title);
-                              info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
-                              info.event.setExtendedProp('description', updatedEvent.description);
-                              info.event.setProp('color', updatedEvent.color);
-                              visualizarModal.hide();
-                          } else {
-                              alert('Erro ao atualizar evento.');
+                          if(data.success) {
+                                info.event.setProp('title', updatedEvent.title);
+                                info.event.setDates(updatedEvent.start_date, updatedEvent.end_date);
+                                info.event.setExtendedProp('description', updatedEvent.description);
+                                info.event.setProp('color', updatedEvent.color);
+                                visualizarModal.hide();
+                          }else {
+                                alert('Erro ao atualizar evento.');
                           }
                       }).catch(err => console.error(err));
                 };
