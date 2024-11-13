@@ -14,9 +14,14 @@
     "directories": {
       "output": "dist"
     },
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.ico"
+    },
     "linux": {
       "target": ["deb", "rpm"],
-      "category": "Utility"
+      "category": "Utility",
+      "icon": "build/icon.png"
     }
   },
   "repository": {

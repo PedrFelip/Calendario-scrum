@@ -5,3 +5,4 @@ dist/
 .vscode
 calendario.db
 /dist/
+/temp/
