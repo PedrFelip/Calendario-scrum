@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 :root {
     --accent-color: #8672FF;
@@ -11,8 +11,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: "Poppins";
-    overflow: hidden;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -38,7 +37,8 @@ body {
 #areaCadastro > form {
     background-color: var(--base-color);
     width: clamp(150px, 60%, 450px);
-    display: grid;
+    display: flex;
+    flex-direction: column;
     border-radius: 20px;
     padding: 20px;
     font-size: 14px;
@@ -53,23 +53,33 @@ form > p {
 form > a {
     text-align: center;
     color: var(--accent-color);
+    text-decoration: none;
 }
 
 form > label {
     margin-top: 1.3em;
     color: var(--text-color);
+    display: flex;
+    align-items: center;
+}
+
+form > label > i {
+    margin-right: 10px;
+    font-size: 1.2em;
+    color: var(--accent-color);
 }
 
 form > label > input {
-    width: 90%;
-    padding: 5px;
+    flex: 1;
+    padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--input-color);
     background-color: var(--input-color);
 }
 
-form > label > input:active {
-    border: 1px solid var(--base-color);
+form > label > input:focus {
+    border: 1px solid var(--accent-color);
+    outline: none;
 }
 
 form > #botaoCadastro {
@@ -92,7 +102,6 @@ form > #botaoCadastro:hover {
     background-image: url(../../imagens/Paisagem02.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    display: block;
     flex: 65%;
 }
 
@@ -115,4 +124,3 @@ form > #botaoCadastro:hover {
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
 }
-
