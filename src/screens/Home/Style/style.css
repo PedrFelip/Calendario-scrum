@@ -45,6 +45,6 @@ body {
     background-color: var(--accentdark-color);
 }
 
-.fc-dayGridMonth-button.btn.btn-primary.active { /*Botão active do grupo direito do header*/
+.btn.btn-primary.active { /*Botão active do grupo direito do header*/
     background-color: var(--accentdark-color);
 }
