@@ -187,11 +187,11 @@
             botaoLightDark.classList.toggle("btn-light");
 
             if(isDarkMode){
-                document.getElementById("iconLight").style.display = "none";
-                document.getElementById("iconDark").style.display = "block";
-            } else {
-                document.getElementById("iconDark").style.display = "none";
                 document.getElementById("iconLight").style.display = "block";
+                document.getElementById("iconDark").style.display = "none";
+            } else {
+                document.getElementById("iconDark").style.display = "black";
+                document.getElementById("iconLight").style.display = "none";
             }
         })
     </script>
