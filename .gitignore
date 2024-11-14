@@ -3,7 +3,6 @@ dist/
 *.log
 .env
 .vscode
-calendario.db
 /dist/
 /temp/
 *.zip
