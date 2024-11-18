@@ -10,16 +10,28 @@
   "build": {
     "appId": "com.teste.planit",
     "productName": "PlanIT",
-    "files": ["**/*"],
+    "files": [
+      "**/*",
+      
+      "!node_modules/*",
+      "!*.md",
+      "!*.log",
+      "!package-lock.json"
+    ],
     "directories": {
       "output": "dist"
     },
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build/icon.ico"
     },
     "linux": {
-      "target": ["deb", "rpm"],
+      "target": [
+        "deb",
+        "rpm"
+      ],
       "category": "Utility",
       "icon": "build/icon.png"
     }
