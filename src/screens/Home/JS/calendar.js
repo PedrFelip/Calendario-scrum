@@ -1,6 +1,8 @@
+const { ipcRenderer } = require('electron');
+
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
-    const userId = localStorage.getItem('user_id'); // Obtém o user_id do localStorage
+    const userId = localStorage.getItem('user_id');
 
     if (!userId) {
         console.error('ID do usuário não encontrado. Redirecionando para login...');
@@ -42,21 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("visualizarDescricao").innerText = info.event.extendedProps.description;
 
             document.getElementById("btnDeleteEvento").onclick = function() {
-                fetch(`http://localhost:3000/api/events/${info.event.id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ user_id: userId })
-                }).then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          info.event.remove();
-                          visualizarModal.hide();
-                      } else {
-                          alert('Erro ao excluir evento.');
-                      }
-                  }).catch(err => console.error(err));
+                ipcRenderer.send('delete-event', { id: info.event.id, user_id: userId });
+                ipcRenderer.once('delete-event-response', (event, data) => {
+                    if (data.success) {
+                        info.event.remove();
+                        visualizarModal.hide();
+                    } else {
+                        alert('Erro ao excluir evento.');
+                    }
+                });
             };
 
             document.getElementById("btnEditEvento").onclick = function() {
@@ -70,9 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById("cadastrarDescricao").value = info.event.extendedProps.description;
                 document.getElementById("cadastrarCor").value = info.event.color;
 
-                // Altera o título do modal
                 document.getElementById("cadastrarModalLabel").innerText = "Editar Evento";
-
                 document.getElementById("btnCadEvento").style.display = "none";
                 document.getElementById("btnSaveEditEvento").style.display = "inline-block";
 
@@ -80,6 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 document.getElementById("btnSaveEditEvento").onclick = function() {
                     const updatedEvent = {
+                        id: info.event.id,
                         title: document.getElementById("cadastrarTitulo").value,
                         start_date: document.getElementById("cadastrarInicio").value,
                         end_date: document.getElementById("cadastrarFim").value,
@@ -88,26 +83,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         user_id: userId
                     };
 
-                    fetch(`http://localhost:3000/api/events/${info.event.id}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updatedEvent)
-                    }).then(response => response.json())
-                      .then(data => {
-                          if(data.success) {
-                                info.event.setProp('title', updatedEvent.title);
-                                info.event.setStart(updatedEvent.start_date);
-                                info.event.setEnd(updatedEvent.end_date);
-                                info.event.setExtendedProp('description', updatedEvent.description);
-                                info.event.setProp('color', updatedEvent.color);
-                                cadastrarModal.hide();
-                                document.getElementById("formCadEvento").reset();
-                          } else {
-                                alert('Erro ao atualizar evento.');
-                          }
-                      }).catch(err => console.error(err));
+                    ipcRenderer.send('edit-event', updatedEvent);
+                    ipcRenderer.once('edit-event-response', (event, data) => {
+                        if(data.success) {
+                            info.event.setProp('title', updatedEvent.title);
+                            info.event.setStart(updatedEvent.start_date);
+                            info.event.setEnd(updatedEvent.end_date);
+                            info.event.setExtendedProp('description', updatedEvent.description);
+                            info.event.setProp('color', updatedEvent.color);
+                            cadastrarModal.hide();
+                            document.getElementById("formCadEvento").reset();
+                        } else {
+                            alert('Erro ao atualizar evento.');
+                        }
+                    });
                 };
             };
         },
@@ -115,13 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const cadastrarModal = new bootstrap.Modal(document.getElementById("cadastrarModal"));
             cadastrarModal.show();
 
-            // Limpa o formulário antes de usá-lo
             document.getElementById("formCadEvento").reset();
 
-            // Altera o título do modal
             document.getElementById("cadastrarModalLabel").innerText = "Cadastrar Evento";
-
-            // Mostra o botão de cadastrar e esconde o botão de salvar alterações
             document.getElementById("btnCadEvento").style.display = "inline-block";
             document.getElementById("btnSaveEditEvento").style.display = "none";
 
@@ -129,29 +114,24 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("cadastrarFim").value = converterData(info.end || info.start);
         },
         events: function(fetchInfo, successCallback, failureCallback) {
-            fetch(`http://localhost:3000/api/events/${userId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        successCallback(data.events.map(event => ({
-                            id: event.id,
-                            title: event.title,
-                            start: event.start_date,
-                            end: event.end_date,
-                            color: event.color,
-                            description: event.description
-                        })));
-                    } else {
-                        failureCallback();
-                    }
-                }).catch(err => {
-                    console.error('Erro ao carregar eventos:', err);
+            ipcRenderer.send('get-events', userId);
+            ipcRenderer.once('get-events-response', (event, data) => {
+                if (data.success) {
+                    successCallback(data.events.map(event => ({
+                        id: event.id,
+                        title: event.title,
+                        start: event.start_date,
+                        end: event.end_date,
+                        color: event.color,
+                        description: event.description
+                    })));
+                } else {
                     failureCallback();
-                });
+                }
+            });
         }
     });
 
-    // Define o manipulador de evento uma vez, fora da função select
     document.getElementById("btnCadEvento").addEventListener('click', function() {
         const newEvent = {
             title: document.getElementById("cadastrarTitulo").value,
@@ -162,38 +142,27 @@ document.addEventListener('DOMContentLoaded', function() {
             user_id: userId
         };
 
-        fetch('http://localhost:3000/api/events', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newEvent)
-        }).then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  calendar.addEvent({
-                      id: data.id,
-                      title: newEvent.title,
-                      start: newEvent.start_date,
-                      end: newEvent.end_date,
-                      color: newEvent.color,
-                      description: newEvent.description
-                  });
-                  const cadastrarModal = bootstrap.Modal.getInstance(document.getElementById("cadastrarModal"));
-                  cadastrarModal.hide();
-                  document.getElementById("formCadEvento").reset();
-              } else {
-                  alert('Erro ao criar evento: ' + data.message);
-                  document.getElementById("formCadEvento").reset();
-              }
-          }).catch(err => {
-              console.error(err);
-              alert('Erro ao criar evento.');
-              document.getElementById("formCadEvento").reset();
-          });
+        ipcRenderer.send('create-event', newEvent);
+        ipcRenderer.once('create-event-response', (event, data) => {
+            if (data.success) {
+                calendar.addEvent({
+                    id: data.id,
+                    title: newEvent.title,
+                    start: newEvent.start_date,
+                    end: newEvent.end_date,
+                    color: newEvent.color,
+                    description: newEvent.description
+                });
+                const cadastrarModal = bootstrap.Modal.getInstance(document.getElementById("cadastrarModal"));
+                cadastrarModal.hide();
+                document.getElementById("formCadEvento").reset();
+            } else {
+                alert('Erro ao criar evento: ' + data.message);
+                document.getElementById("formCadEvento").reset();
+            }
+        });
     });
 
-    // Adicione o listener para resetar o formulário ao fechar o modal
     const cadastrarModalElement = document.getElementById('cadastrarModal');
     cadastrarModalElement.addEventListener('hidden.bs.modal', function () {
         document.getElementById("formCadEvento").reset();
@@ -219,5 +188,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     calendar.render();
-
 });
