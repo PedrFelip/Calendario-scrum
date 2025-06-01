@@ -1,5 +1,4 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
-const api = require('./src/constants/api'); // Rota de API
 const db = require('./src/constants/database'); // Conexão com o banco de dados
 const path = require('path');
 
@@ -15,8 +14,6 @@ function createWindow() {
       nodeIntegration: true,
     },
   });
-
-  console.log('Tentando carregar:', path.join(__dirname, 'src', './screens/Start/escolhaInicial.html'));
 
   win.loadFile(path.join(__dirname, 'src', './screens/Start/escolhaInicial.html'));
 }
@@ -35,17 +32,12 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// Rotas de IPC para lógica interna
-
 // Lógica de Cadastro
 ipcMain.on('signup-attempt', (event, { username, email, birthdate, password }) => {
-  console.log('Tentativa de cadastro recebida:', username);
-
   const queryCheckUser = `SELECT username FROM users WHERE username = ? OR email = ?`;
 
   db.get(queryCheckUser, [username, email], (err, row) => {
     if (err) {
-      console.error('Erro ao verificar usuário:', err);
       event.reply('signup-response', { success: false, message: 'Erro interno no sistema.' });
       return;
     }
@@ -56,7 +48,6 @@ ipcMain.on('signup-attempt', (event, { username, email, birthdate, password }) =
       const queryInsertUser = `INSERT INTO users (username, email, birthdate, password) VALUES (?, ?, ?, ?)`;
       db.run(queryInsertUser, [username, email, birthdate, password], function (err) {
         if (err) {
-          console.error('Erro ao cadastrar usuário:', err);
           event.reply('signup-response', { success: false, message: 'Erro ao cadastrar usuário.' });
         } else {
           event.reply('signup-response', { success: true });
@@ -68,19 +59,15 @@ ipcMain.on('signup-attempt', (event, { username, email, birthdate, password }) =
 
 // Lógica de Login
 ipcMain.on('login-attempt', (event, { username, password }) => {
-  console.log('Tentativa de login recebida:', username);
-  
   const queryCheckUser = `SELECT id, username FROM users WHERE username = ? AND password = ?`;
 
   db.get(queryCheckUser, [username, password], (err, row) => {
     if (err) {
-      console.error('Erro ao verificar credenciais:', err);
       event.reply('login-response', { success: false, message: 'Erro interno no sistema.' });
       return;
     }
 
     if (row) {
-      console.log('Login bem-sucedido para:', username);
       event.reply('login-response', { success: true, user_id: row.id });
     } else {
       event.reply('login-response', { success: false, message: 'Usuário ou senha inválidos.' });
@@ -88,7 +75,52 @@ ipcMain.on('login-attempt', (event, { username, password }) => {
   });
 });
 
-// Inicializa o servidor Express
-api.listen(3000, () => {
-  console.log('Servidor Express rodando em http://localhost:3000');
+// CRUD de eventos via IPC
+
+// Listar eventos
+ipcMain.on('get-events', (event, userId) => {
+  db.all('SELECT * FROM events WHERE user_id = ?', [userId], (err, rows) => {
+    if (err) {
+      event.reply('get-events-response', { success: false, message: 'Erro ao buscar eventos.' });
+    } else {
+      event.reply('get-events-response', { success: true, events: rows });
+    }
+  });
+});
+
+// Criar evento
+ipcMain.on('create-event', (event, eventData) => {
+  const { user_id, title, start_date, end_date, color, description } = eventData;
+  const query = `INSERT INTO events (user_id, title, start_date, end_date, color, description) VALUES (?, ?, ?, ?, ?, ?)`;
+  db.run(query, [user_id, title, start_date, end_date, color, description], function (err) {
+    if (err) {
+      event.reply('create-event-response', { success: false, message: 'Erro ao criar evento.' });
+    } else {
+      event.reply('create-event-response', { success: true, id: this.lastID });
+    }
+  });
+});
+
+// Editar evento
+ipcMain.on('edit-event', (event, eventData) => {
+  const { id, user_id, title, start_date, end_date, color, description } = eventData;
+  const query = `UPDATE events SET title=?, start_date=?, end_date=?, color=?, description=? WHERE id=? AND user_id=?`;
+  db.run(query, [title, start_date, end_date, color, description, id, user_id], function (err) {
+    if (err) {
+      event.reply('edit-event-response', { success: false, message: 'Erro ao editar evento.' });
+    } else {
+      event.reply('edit-event-response', { success: true });
+    }
+  });
+});
+
+// Excluir evento
+ipcMain.on('delete-event', (event, { id, user_id }) => {
+  db.run('DELETE FROM events WHERE id=? AND user_id=?', [id, user_id], function (err) {
+    if (err) {
+      event.reply('delete-event-response', { success: false, message: 'Erro ao excluir evento.' });
+    } else {
+      event.reply('delete-event-response', { success: true });
+    }
+  });
 });
